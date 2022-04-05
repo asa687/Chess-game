@@ -51,6 +51,7 @@ namespace Chessboard_valuer
         public List<Point> pointList = new List<Point>();
         public Chessboard currentBoard = new Chessboard();
         public Chessboard analysedBoard = new Chessboard();
+        public List<Chessboard> localAiBoard = new List<Chessboard>();
         public Turn turn;
         Chessboard playerBoard = new Chessboard();
         bool isPressed = false;
@@ -1016,16 +1017,16 @@ namespace Chessboard_valuer
                 }
 
             }
-            else if (chessboardLocal.GetKing.ContainsKey(m.GetEndPoint))
+            else if (chessboardLocal.king.ContainsKey(m.GetEndPoint))
             {
-                if (chessboardLocal.GetKing[m.GetEndPoint].GetColor == color)
+                if (chessboardLocal.king[m.GetEndPoint].GetColor == color)
                 {
                     validEndpoint = false;
                 }
             }
-            else if (chessboardLocal.GetQueen.ContainsKey(m.GetEndPoint))
+            else if (chessboardLocal.queen.ContainsKey(m.GetEndPoint))
             {
-                if (chessboardLocal.GetQueen[m.GetEndPoint].GetColor == color)
+                if (chessboardLocal.queen[m.GetEndPoint].GetColor == color)
                 {
                     validEndpoint = false;
                 }
@@ -1041,10 +1042,10 @@ namespace Chessboard_valuer
                     if (valid == true)
                     {
                         //note change the clases to use local variables
-                        chessboardLocal = PieceRemove(m, chessboardLocal.GetPawn, chessboardLocal.GetRook, chessboardLocal.GetKnight, chessboardLocal.GetBishop, chessboardLocal.GetKing, chessboardLocal.GetQueen);
-                        chessboardLocal.GetPawn[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
-                        chessboardLocal.GetPawn.Add(m.GetEndPoint, chessboardLocal.GetPawn[m.GetStartPoint]);
-                        chessboardLocal.GetPawn.Remove(m.GetStartPoint);
+                        chessboardLocal = PieceRemove(m, chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                        chessboardLocal.pawn[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
+                        chessboardLocal.pawn.Add(m.GetEndPoint, chessboardLocal.pawn[m.GetStartPoint]);
+                        chessboardLocal.pawn.Remove(m.GetStartPoint);
                         return chessboardLocal;
                     }
 
@@ -1055,10 +1056,10 @@ namespace Chessboard_valuer
                     valid = chessboardLocal.rook[m.GetStartPoint].ValidRookMove(m, chessboardLocal);
                     if (valid == true)
                     {
-                        chessboardLocal = PieceRemove(m, chessboardLocal.GetPawn, chessboardLocal.GetRook, chessboardLocal.GetKnight, chessboardLocal.GetBishop, chessboardLocal.GetKing, chessboardLocal.GetQueen);
-                        chessboardLocal.GetRook[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
-                        chessboardLocal.GetRook.Add(m.GetEndPoint, chessboardLocal.GetRook[m.GetStartPoint]);
-                        chessboardLocal.GetRook.Remove(m.GetStartPoint);
+                        chessboardLocal = PieceRemove(m, chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                        chessboardLocal.rook[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
+                        chessboardLocal.rook.Add(m.GetEndPoint, chessboardLocal.rook[m.GetStartPoint]);
+                        chessboardLocal.rook.Remove(m.GetStartPoint);
                         return chessboardLocal;
                     }
                 }
@@ -1067,10 +1068,10 @@ namespace Chessboard_valuer
                     valid = chessboardLocal.knight[m.GetStartPoint].ValidKnightMove(m, chessboardLocal);
                     if (valid == true)
                     {
-                        chessboardLocal = PieceRemove(m, chessboardLocal.GetPawn, chessboardLocal.GetRook, chessboardLocal.GetKnight, chessboardLocal.GetBishop, chessboardLocal.GetKing, chessboardLocal.GetQueen);
-                        chessboardLocal.GetKnight[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
-                        chessboardLocal.GetKnight.Add(m.GetEndPoint, chessboardLocal.GetKnight[m.GetStartPoint]);
-                        chessboardLocal.GetKnight.Remove(m.GetStartPoint);
+                        chessboardLocal = PieceRemove(m, chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                        chessboardLocal.knight[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
+                        chessboardLocal.knight.Add(m.GetEndPoint, chessboardLocal.knight[m.GetStartPoint]);
+                        chessboardLocal.knight.Remove(m.GetStartPoint);
                         return chessboardLocal;
                     }
 
@@ -1080,36 +1081,36 @@ namespace Chessboard_valuer
                     valid = chessboardLocal.bishop[m.GetStartPoint].ValidBishopMove(m, chessboardLocal);
                     if (valid == true)
                     {
-                        chessboardLocal = PieceRemove(m, chessboardLocal.GetPawn, chessboardLocal.GetRook, chessboardLocal.GetKnight, chessboardLocal.GetBishop, chessboardLocal.GetKing, chessboardLocal.GetQueen);
-                        chessboardLocal.GetBishop[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
-                        chessboardLocal.GetBishop.Add(m.GetEndPoint, chessboardLocal.bishop[m.GetStartPoint]);
-                        chessboardLocal.GetBishop.Remove(m.GetStartPoint);
+                        chessboardLocal = PieceRemove(m, chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                        chessboardLocal.bishop[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
+                        chessboardLocal.bishop.Add(m.GetEndPoint, chessboardLocal.bishop[m.GetStartPoint]);
+                        chessboardLocal.bishop.Remove(m.GetStartPoint);
                         return chessboardLocal;
                     }
 
                 }
-                else if (chessboardLocal.GetKing.ContainsKey(m.GetStartPoint) && chessboardLocal.GetKing[m.GetStartPoint].GetColor == color)
+                else if (chessboardLocal.king.ContainsKey(m.GetStartPoint) && chessboardLocal.king[m.GetStartPoint].GetColor == color)
                 {
-                    valid = chessboardLocal.GetKing[m.GetStartPoint].ValidKingMove(m, chessboardLocal);
+                    valid = chessboardLocal.king[m.GetStartPoint].ValidKingMove(m, chessboardLocal);
                     if (valid == true)
                     {
-                        chessboardLocal = PieceRemove(m, chessboardLocal.GetPawn, chessboardLocal.GetRook, chessboardLocal.knight, chessboardLocal.GetBishop, chessboardLocal.GetKing, chessboardLocal.GetQueen);
-                        chessboardLocal.GetKing[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
-                        chessboardLocal.GetKing.Add(m.GetEndPoint, chessboardLocal.GetKing[m.GetStartPoint]);
-                        chessboardLocal.GetKing.Remove(m.GetStartPoint);
+                        chessboardLocal = PieceRemove(m, chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                        chessboardLocal.king[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
+                        chessboardLocal.king.Add(m.GetEndPoint, chessboardLocal.king[m.GetStartPoint]);
+                        chessboardLocal.king.Remove(m.GetStartPoint);
                         return chessboardLocal;
                     }
 
                 }
-                else if (chessboardLocal.GetQueen.ContainsKey(m.GetStartPoint) && chessboardLocal.GetQueen[m.GetStartPoint].GetColor == color)
+                else if (chessboardLocal.queen.ContainsKey(m.GetStartPoint) && chessboardLocal.queen[m.GetStartPoint].GetColor == color)
                 {
-                    valid = chessboardLocal.GetQueen[m.GetStartPoint].ValidQueenMove(m, chessboardLocal);
+                    valid = chessboardLocal.queen[m.GetStartPoint].ValidQueenMove(m, chessboardLocal);
                     if (valid == true)
                     {
-                        chessboardLocal = PieceRemove(m, chessboardLocal.GetPawn, chessboardLocal.GetRook, chessboardLocal.knight, chessboardLocal.GetBishop, chessboardLocal.GetKing, chessboardLocal.GetQueen);
-                        chessboardLocal.GetQueen[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
-                        chessboardLocal.GetQueen.Add(m.GetEndPoint, chessboardLocal.GetQueen[m.GetStartPoint]);
-                        chessboardLocal.GetQueen.Remove(m.GetStartPoint);
+                        chessboardLocal = PieceRemove(m, chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                        chessboardLocal.queen[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
+                        chessboardLocal.queen.Add(m.GetEndPoint, chessboardLocal.queen[m.GetStartPoint]);
+                        chessboardLocal.queen.Remove(m.GetStartPoint);
                         return chessboardLocal;
                     }
 
@@ -1135,7 +1136,7 @@ namespace Chessboard_valuer
             Chessboard cloneBoard = chessboard.DeepCopy();
             Chessboard chessboard1 = new Chessboard();
             returnedBoards.Clear();
-            for (int i = 0; i < 999999; i++)
+            for (int i = 0; i < 999; i++)
             {
                 returnedBoards.Add(chessboard);
 
@@ -1178,9 +1179,9 @@ namespace Chessboard_valuer
             }
             for(int index = 0; index <= moves.Count - 1; index++)
             {
-                if (chessboard.GetPawn.ContainsKey(moves[index].startPoint))
+                if (chessboard.pawn.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.GetPawn[moves[index].startPoint].ValidPawnMove(moves[index], chessboard) && chessboard.GetPawn[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.pawn[moves[index].startPoint].ValidPawnMove(moves[index], chessboard) && chessboard.pawn[moves[index].startPoint].GetColor == Color.Black)
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1188,9 +1189,9 @@ namespace Chessboard_valuer
                     }
                 
                 }
-                else if (chessboard.GetRook.ContainsKey(moves[index].startPoint))
+                else if (chessboard.rook.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.GetRook[moves[index].startPoint].ValidRookMove(moves[index], chessboard) && chessboard.GetRook[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.rook[moves[index].startPoint].ValidRookMove(moves[index], chessboard) && chessboard.rook[moves[index].startPoint].GetColor == Color.Black)
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1198,9 +1199,9 @@ namespace Chessboard_valuer
                     }
 
                 }
-                else if (chessboard.GetKnight.ContainsKey(moves[index].startPoint))
+                else if (chessboard.knight.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.GetKnight[moves[index].startPoint].ValidKnightMove(moves[index], chessboard) && chessboard.GetKnight[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.knight[moves[index].startPoint].ValidKnightMove(moves[index], chessboard) && chessboard.knight[moves[index].startPoint].GetColor == Color.Black)
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1208,9 +1209,9 @@ namespace Chessboard_valuer
                     }
 
                 }
-                else if (chessboard.GetBishop.ContainsKey(moves[index].startPoint))
+                else if (chessboard.bishop.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.GetBishop[moves[index].startPoint].ValidBishopMove(moves[index], chessboard) && chessboard.GetBishop[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.bishop[moves[index].startPoint].ValidBishopMove(moves[index], chessboard) && chessboard.bishop[moves[index].startPoint].GetColor == Color.Black)
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1218,9 +1219,9 @@ namespace Chessboard_valuer
                     }
 
                 }
-                else if (chessboard.GetKing.ContainsKey(moves[index].startPoint))
+                else if (chessboard.king.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.GetKing[moves[index].startPoint].ValidKingMove(moves[index], chessboard) && chessboard.GetKing[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.king[moves[index].startPoint].ValidKingMove(moves[index], chessboard) && chessboard.king[moves[index].startPoint].GetColor == Color.Black)
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1228,9 +1229,9 @@ namespace Chessboard_valuer
                     }
 
                 }
-                else if (chessboard.GetQueen.ContainsKey(moves[index].startPoint))
+                else if (chessboard.queen.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.GetQueen[moves[index].startPoint].ValidQueenMove(moves[index], chessboard) && chessboard.GetQueen[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.queen[moves[index].startPoint].ValidQueenMove(moves[index], chessboard) && chessboard.queen[moves[index].startPoint].GetColor == Color.Black)
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1318,6 +1319,7 @@ namespace Chessboard_valuer
                 
                 squareArray[indexI, indexJ].spriteColor = clickerColor;
                 playedBoards.Add(initialBoard);
+                localAiBoard.Add(initialBoard);
                 isStarted = true;
 
             }
@@ -1459,13 +1461,14 @@ namespace Chessboard_valuer
 
 
                     playerBoard = MovePiecesReturner(m, color, playedBoards[playedBoards.Count - 1]);
-
+                    
 
 
                     pointList = new List<Point>();
                     if (playerBoard != null)
                     {
                         playedBoards.Add(playerBoard);
+                        localAiBoard.Add(playerBoard);
                         turnComplete = true;
                         turn = Turn.AI;
                         isCalled = true;
@@ -1543,7 +1546,7 @@ namespace Chessboard_valuer
                                 playedBoards[playedBoards.Count - 1].pawn.Remove(new Point(endX, 0));
                                 Vector2 piecePosition = new Vector2(endX * (float)QueenTexture.Width, 0 * (float)QueenTexture.Height);
                                 Rectangle pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, QueenTexture.Width, QueenTexture.Height);
-                                playedBoards[(playedBoards.Count - 1)].GetQueen.Add(new Point(endX, 0), new Queen(QueenTexture, piecePosition, Color.White, pieceBounds, 1, -8, true));
+                                playedBoards[(playedBoards.Count - 1)].queen.Add(new Point(endX, 0), new Queen(QueenTexture, piecePosition, Color.White, pieceBounds, 1, -8, true));
 
 
                                 isPressed = true;
@@ -1587,13 +1590,13 @@ namespace Chessboard_valuer
 
                 
                 bestMove = new Move();
-                currentBoard = playedBoards[playedBoards.Count - 1]; 
+                currentBoard = localAiBoard[localAiBoard.Count - 1]; 
 
-                AiMove = AllMoves(Turn.AI, playerBoard);
+                AiMove = AllMoves(Turn.AI, currentBoard);
                 foreach (Move moves in AiMove)
                 {
                     
-                    analysedBoard = MovePiecesReturner(moves, Color.Black, playerBoard);
+                    analysedBoard = MovePiecesReturner(moves, Color.Black, currentBoard);
                     if (analysedBoard != null)
                     {
                         currentVal = BestBoard(analysedBoard, Turn.AI, depth);
@@ -1610,7 +1613,7 @@ namespace Chessboard_valuer
 
                 }
 
-                AiBoard = MovePiecesReturner(bestMove, Color.Black, currentBoard);
+                AiBoard = MovePiecesReturner(bestMove, Color.Black, playedBoards[playedBoards.Count - 1]);
                 playedBoards.Add(AiBoard);
                 isCalled = false;
                 turnComplete = false;
@@ -1623,10 +1626,10 @@ namespace Chessboard_valuer
             }
 
             //note to check if king is in check, check if any valid moves will be where the king is, if so king valid move is false, and a move has to be made such that it is true
-            /*if (playedBoards[playedBoards.Count - 1].GetKing.Count < 2)
+            /*if (playedBoards[playedBoards.Count - 1].king.Count < 2)
             {
                 King[] remainingKings = new King[1];
-                Kingposition = playedBoards[playedBoards.Count - 1].GetKing.Values;
+                Kingposition = playedBoards[playedBoards.Count - 1].king.Values;
                 Kingposition.CopyTo(remainingKings, 0);
                 Color winColor = remainingKings[0].GetColor;
                 if (winColor == Color.White)
@@ -1720,7 +1723,7 @@ namespace Chessboard_valuer
 
             }
 
-            foreach (KeyValuePair<Point, King> king in playedBoards[playedBoards.Count - 1].GetKing)
+            foreach (KeyValuePair<Point, King> king in playedBoards[playedBoards.Count - 1].king)
             {
                 if (king.Value.CurrentlyDrawn)
                 {
@@ -1729,7 +1732,7 @@ namespace Chessboard_valuer
 
             }
 
-            foreach (KeyValuePair<Point, Queen> queen in playedBoards[playedBoards.Count - 1].GetQueen)
+            foreach (KeyValuePair<Point, Queen> queen in playedBoards[playedBoards.Count - 1].queen)
             {
                 if (queen.Value.CurrentlyDrawn)
                 {
