@@ -50,6 +50,7 @@ namespace Chessboard_valuer
         public List<Move> moveList = new List<Move>();
         public List<Point> pointList = new List<Point>();
         public Chessboard currentBoard = new Chessboard();
+        public Chessboard chessboardLocal = new Chessboard();
         public Chessboard analysedBoard = new Chessboard();
         public List<Chessboard> localAiBoard = new List<Chessboard>();
         public Turn turn;
@@ -657,16 +658,11 @@ namespace Chessboard_valuer
 
 
 
-        protected int Minimax(Chessboard board, int depth, Turn turns, int alpha, int beta)
+        private int Minimax(Chessboard board, int depth, Turn turns, int alpha, int beta)
         {
-            curentBoard = board.DeepCopy();
-
-            
-
-            
-            
+                     
             Chessboard chessboardLocal = new Chessboard();
-            moves = AllMoves(turns, curentBoard);
+            moves = AllMoves(turns, board);
             
             
 
@@ -677,7 +673,7 @@ namespace Chessboard_valuer
                 {
                     if (depth > 0)
                     {
-                        chessboardLocal = MovePiecesReturner(moves[i], Color.White, curentBoard);
+                        chessboardLocal = MovePiecesReturner(moves[i], Color.White, board);
                         if (chessboardLocal != null)
                         {
                             value = Minimax(chessboardLocal, depth - 1, Turn.AI, alpha, beta);
@@ -712,7 +708,7 @@ namespace Chessboard_valuer
                 {
                     if (depth > 0)
                     {
-                        chessboardLocal = MovePiecesReturner(moves[i], Color.Black, curentBoard);
+                        chessboardLocal = MovePiecesReturner(moves[i], Color.Black, board);
 
                         if (chessboardLocal != null)
                         {
@@ -771,7 +767,31 @@ namespace Chessboard_valuer
         }
 
 
+        private Chessboard UpToDateBoard()
+        {
+            
+            Chessboard firstBoard = drawPieces();
 
+            Color color = Color.White;
+            foreach (Move m in moveList)
+            {
+
+                firstBoard = (MovePiecesReturner(m, color, firstBoard));
+                if (color == Color.White)
+                {
+                    color = Color.Black;
+
+                }
+                else
+                {
+                    color = Color.White;
+                
+                }
+            }
+
+            return firstBoard; 
+
+        }
 
 
         public int Switch(int colour)
@@ -1133,7 +1153,6 @@ namespace Chessboard_valuer
             int widthLimit = 500;
             endPoint = new Point(0, 0);
             Point startPoint = new Point(0, 0);
-            Chessboard cloneBoard = chessboard.DeepCopy();
             Chessboard chessboard1 = new Chessboard();
             returnedBoards.Clear();
             for (int i = 0; i < 999; i++)
@@ -1177,6 +1196,7 @@ namespace Chessboard_valuer
                 }
             
             }
+
             for(int index = 0; index <= moves.Count - 1; index++)
             {
                 if (chessboard.pawn.ContainsKey(moves[index].startPoint))
@@ -1248,6 +1268,15 @@ namespace Chessboard_valuer
 
 
 
+            }
+            foreach (Move move in returnedMoves)
+            {
+                if (move.startPoint == move.endPoint)
+                { 
+                    returnedMoves.Remove(move);
+                                
+                }
+            
             }
 
             return returnedMoves;
@@ -1590,16 +1619,16 @@ namespace Chessboard_valuer
 
                 
                 bestMove = new Move();
-                currentBoard = localAiBoard[localAiBoard.Count - 1]; 
+                currentBoard = UpToDateBoard(); 
 
                 AiMove = AllMoves(Turn.AI, currentBoard);
                 foreach (Move moves in AiMove)
                 {
                     
-                    analysedBoard = MovePiecesReturner(moves, Color.Black, currentBoard);
+                    analysedBoard = MovePiecesReturner(moves, Color.Black, UpToDateBoard());
                     if (analysedBoard != null)
                     {
-                        currentVal = BestBoard(analysedBoard, Turn.AI, depth);
+                        currentVal = BestBoard(UpToDateBoard(), Turn.AI, depth);
                         if (currentVal > bestVal)
                         {
                             bestMove = moves;
@@ -1613,11 +1642,13 @@ namespace Chessboard_valuer
 
                 }
 
-                AiBoard = MovePiecesReturner(bestMove, Color.Black, playedBoards[playedBoards.Count - 1]);
+                AiBoard = MovePiecesReturner(bestMove, Color.Black, UpToDateBoard());
                 playedBoards.Add(AiBoard);
+                moveList.Add(bestMove);
                 isCalled = false;
                 turnComplete = false;
-
+                bestVal = -1;
+                currentVal = 0;
 
 
                 turn = Turn.PLAYER;
@@ -1626,7 +1657,7 @@ namespace Chessboard_valuer
             }
 
             //note to check if king is in check, check if any valid moves will be where the king is, if so king valid move is false, and a move has to be made such that it is true
-            /*if (playedBoards[playedBoards.Count - 1].king.Count < 2)
+            if (playedBoards[playedBoards.Count - 1].king.Count < 2)
             {
                 King[] remainingKings = new King[1];
                 Kingposition = playedBoards[playedBoards.Count - 1].king.Values;
@@ -1646,7 +1677,7 @@ namespace Chessboard_valuer
 
 
             }
-            */
+            
 
 
 
