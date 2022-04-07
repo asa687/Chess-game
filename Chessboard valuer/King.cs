@@ -28,7 +28,7 @@ namespace Chessboard_valuer
         public bool ValidKingMove(Move move, Chessboard chessboard)
         {
             bool valid = false;
-            if (move.GetStartPoint.X == move.GetEndPoint.X || move.GetStartPoint.Y == move.GetEndPoint.Y || Math.Abs(move.GetEndPoint.X - move.GetStartPoint.X) == Math.Abs(move.GetEndPoint.Y - move.GetStartPoint.Y) && (Math.Abs(move.GetEndPoint.X - move.GetStartPoint.X) == 1 || Math.Abs(move.GetEndPoint.Y - move.GetStartPoint.Y) == 1)) 
+            if ((move.GetStartPoint.X == move.GetEndPoint.X && Math.Abs(move.GetEndPoint.Y - move.GetStartPoint.Y) == 1) || (move.GetStartPoint.Y == move.GetEndPoint.Y && Math.Abs(move.GetEndPoint.X - move.GetStartPoint.X) == 1) || Math.Abs(move.GetEndPoint.X - move.GetStartPoint.X) == Math.Abs(move.GetEndPoint.Y - move.GetStartPoint.Y) && (Math.Abs(move.GetEndPoint.X - move.GetStartPoint.X) == 1 && Math.Abs(move.GetEndPoint.Y - move.GetStartPoint.Y) == 1)) 
             {
                 valid = true;
 
