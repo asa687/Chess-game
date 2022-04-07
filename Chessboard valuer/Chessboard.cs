@@ -13,6 +13,7 @@ namespace Chessboard_valuer
     public class Chessboard 
 
     {
+        private Chessboard board = new Chessboard();
         public Dictionary<Point, Pawn> pawn;
         public Dictionary<Point, Rook> rook;
         public Dictionary<Point, Knight> knight;
@@ -89,6 +90,7 @@ namespace Chessboard_valuer
 
         public int EvaluateBoard()
         {
+            
             int value = 0;
             foreach (KeyValuePair<Point, Pawn> pawns in pawn)
             {
@@ -96,7 +98,17 @@ namespace Chessboard_valuer
                 if (pawns.Value.CurrentlyDrawn)
                 {
                     value += pawns.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings in king)
+                    {
+                        if (pawns.Value.ValidPawnMove(new Move(pawns.Key, kings.Key), new Chessboard(pawn, rook, knight, bishop, king, queen)) && kings.Value.GetColor != pawns.Value.GetColor)
+                        {
+                            value += pawns.Value.GetValue * kings.Value.GetValue;
+                        
+                        }
 
+
+                    }
+                    
                 }
 
 
@@ -111,6 +123,17 @@ namespace Chessboard_valuer
                 if (rooks.Value.CurrentlyDrawn)
                 {
                     value += rooks.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings in king)
+                    {
+                        if (rooks.Value.ValidRookMove(new Move(rooks.Key, kings.Key), new Chessboard(pawn, rook, knight, bishop, king, queen)) && kings.Value.GetColor != rooks.Value.GetColor)
+                        {
+                            value += rooks.Value.GetValue * kings.Value.GetValue;
+
+                        }
+
+
+                    }
+
                 }
 
 
@@ -122,6 +145,16 @@ namespace Chessboard_valuer
                 if (knights.Value.CurrentlyDrawn)
                 {
                     value += knights.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings in king)
+                    {
+                        if (knights.Value.ValidKnightMove(new Move(knights.Key, kings.Key), new Chessboard(pawn, rook, knight, bishop, king, queen)) && kings.Value.GetColor != knights.Value.GetColor)
+                        {
+                            value += knights.Value.GetValue * kings.Value.GetValue;
+
+                        }
+
+
+                    }
                 }
 
             }
@@ -131,6 +164,16 @@ namespace Chessboard_valuer
                 if (bishops.Value.CurrentlyDrawn)
                 {
                     value += bishops.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings in king)
+                    {
+                        if (bishops.Value.ValidBishopMove(new Move(bishops.Key, kings.Key), new Chessboard(pawn, rook, knight, bishop, king, queen)) && kings.Value.GetColor != bishops.Value.GetColor)
+                        {
+                            value += bishops.Value.GetValue * kings.Value.GetValue;
+
+                        }
+
+
+                    }
                 }
 
             }
@@ -140,6 +183,16 @@ namespace Chessboard_valuer
                 if (kings.Value.CurrentlyDrawn)
                 {
                     value += kings.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings2 in king)
+                    {
+                        if (kings.Value.ValidKingMove(new Move(kings.Key, kings2.Key), new Chessboard(pawn, rook, knight, bishop, king, queen)) && kings.Value.GetColor != kings.Value.GetColor)
+                        {
+                            value += kings.Value.GetValue * kings.Value.GetValue;
+
+                        }
+
+
+                    }
                 }
 
             }
@@ -149,6 +202,16 @@ namespace Chessboard_valuer
                 if (queens.Value.CurrentlyDrawn)
                 {
                     value += queens.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings in king)
+                    {
+                        if (queens.Value.ValidQueenMove(new Move(queens.Key, kings.Key), new Chessboard(pawn, rook, knight, bishop, king, queen)) && kings.Value.GetColor != queens.Value.GetColor)
+                        {
+                            value += queens.Value.GetValue * kings.Value.GetValue;
+
+                        }
+
+
+                    }
                 }
 
             }

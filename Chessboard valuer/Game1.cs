@@ -121,7 +121,7 @@ namespace Chessboard_valuer
             }
             return ret;
         }
-        private void LoadWhiteQueen(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Queen> queens)
+        private void LoadWhiteQueen(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Queen> queens)
         {
             if (initialising)
             {
@@ -139,7 +139,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackQueen(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Queen> queens)
+        private void LoadBlackQueen(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Queen> queens)
         {
             if (initialising)
             {
@@ -156,7 +156,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhiteBishop1(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Bishop> bishops)
+        private void LoadWhiteBishop1(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Bishop> bishops)
         {
             if (initialising)
             {
@@ -172,7 +172,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackBishop1(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Bishop> bishops)
+        private void LoadBlackBishop1(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Bishop> bishops)
         {
             if (initialising)
             {
@@ -188,7 +188,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhiteBishop2(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Bishop> bishops)
+        private void LoadWhiteBishop2(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, Bishop> bishops)
         {
             if (initialising)
             {
@@ -204,7 +204,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackBishop2(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Bishop> bishops)
+        private void LoadBlackBishop2(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, Bishop> bishops)
         {
             if (initialising)
             {
@@ -220,7 +220,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhiteKing(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, King> kings)
+        private void LoadWhiteKing(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, King> kings)
         {
             if (initialising)
             {
@@ -238,7 +238,7 @@ namespace Chessboard_valuer
         }
         //note need to add local inputs for a variable and a return
 
-        private void LoadBlackKing(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, King> kings)
+        private void LoadBlackKing(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, King> kings)
         {
             if (initialising)
             {
@@ -253,7 +253,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhiteKnight1(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Knight> knights)
+        private void LoadWhiteKnight1(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Knight> knights)
         {
             if (initialising)
             {
@@ -268,7 +268,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackKnight1(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Knight> knights)
+        private void LoadBlackKnight1(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Knight> knights)
         {
             if (initialising)
             {
@@ -283,7 +283,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhiteKnight2(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Knight> knights)
+        private void LoadWhiteKnight2(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, Knight> knights)
         {
             if (initialising)
             {
@@ -298,7 +298,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackKnight2(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Knight> knights)
+        private void LoadBlackKnight2(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Knight> knights)
         {
             if (initialising)
             {
@@ -313,7 +313,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhiteRook1(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Rook> rooks)
+        private void LoadWhiteRook1(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, Rook> rooks)
         {
             if (initialising)
             {
@@ -328,7 +328,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackRook1(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Rook> rooks)
+        private void LoadBlackRook1(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, Rook> rooks)
         {
             if (initialising)
             {
@@ -343,7 +343,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhiteRook2(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Rook> rooks)
+        private void LoadWhiteRook2(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Rook> rooks)
         {
             if (initialising)
             {
@@ -358,7 +358,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackRook2(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Rook> rooks)
+        private void LoadBlackRook2(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, Rook> rooks)
         {
             if (initialising)
             {
@@ -373,7 +373,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhitePawn1(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadWhitePawn1(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -389,7 +389,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhitePawn2(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadWhitePawn2(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -405,7 +405,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhitePawn3(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadWhitePawn3(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -421,7 +421,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhitePawn4(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadWhitePawn4(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -437,7 +437,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhitePawn5(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadWhitePawn5(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -453,7 +453,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhitePawn6(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadWhitePawn6(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -469,7 +469,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadWhitePawn7(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadWhitePawn7(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -484,7 +484,7 @@ namespace Chessboard_valuer
 
 
         }
-        private void LoadWhitePawn8(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadWhitePawn8(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -500,7 +500,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackPawn1(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadBlackPawn1(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -516,7 +516,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackPawn2(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadBlackPawn2(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -532,7 +532,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackPawn3(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadBlackPawn3(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -548,7 +548,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackPawn4(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadBlackPawn4(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -564,7 +564,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackPawn5(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadBlackPawn5(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -580,7 +580,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackPawn6(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadBlackPawn6(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -596,7 +596,7 @@ namespace Chessboard_valuer
 
         }
 
-        private void LoadBlackPawn7(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadBlackPawn7(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Pawn> pawns)
         {
             if (initialising)
             {
@@ -611,7 +611,7 @@ namespace Chessboard_valuer
 
 
         }
-        private void LoadBlackPawn8(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Pawn> pawns)
+        private void LoadBlackPawn8(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, Pawn> pawns)
         {
 
             if (initialising)
@@ -829,39 +829,39 @@ namespace Chessboard_valuer
             Dictionary<Point, Queen> queens = new Dictionary<Point, Queen>();
 
 
-            LoadBlackBishop1(BishopTexture, 0, 0, true, true, bishops);
-            LoadBlackBishop2(BishopTexture, 0, 0, true, true, bishops);
-            LoadBlackKing(KingTexture, 0, 0, true, true, kings);
-            LoadBlackKnight1(KnightTexture, 0, 0, true, true, knights);
-            LoadBlackKnight2(KnightTexture, 0, 0, true, true, knights);
-            LoadBlackPawn1(PawnTexture, 0, 0, true, true, pawns);
-            LoadBlackPawn2(PawnTexture, 0, 0, true, true, pawns);
-            LoadBlackPawn3(PawnTexture, 0, 0, true, true, pawns);
-            LoadBlackPawn4(PawnTexture, 0, 0, true, true, pawns);
-            LoadBlackPawn5(PawnTexture, 0, 0, true, true, pawns);
-            LoadBlackPawn6(PawnTexture, 0, 0, true, true, pawns);
-            LoadBlackPawn7(PawnTexture, 0, 0, true, true, pawns);
-            LoadBlackPawn8(PawnTexture, 0, 0, true, true, pawns);
-            LoadBlackQueen(QueenTexture, 0, 0, true, true, queens);
-            LoadBlackRook1(RookTexture, 0, 0, true, true, rooks);
-            LoadBlackRook2(RookTexture, 0, 0, true, true, rooks);
+            LoadBlackBishop1(BishopTexture, 0, 0, true,  bishops);
+            LoadBlackBishop2(BishopTexture, 0, 0, true,  bishops);
+            LoadBlackKing(KingTexture, 0, 0, true,  kings);
+            LoadBlackKnight1(KnightTexture, 0, 0, true,  knights);
+            LoadBlackKnight2(KnightTexture, 0, 0, true,  knights);
+            LoadBlackPawn1(PawnTexture, 0, 0, true,  pawns);
+            LoadBlackPawn2(PawnTexture, 0, 0, true,  pawns);
+            LoadBlackPawn3(PawnTexture, 0, 0, true,  pawns);
+            LoadBlackPawn4(PawnTexture, 0, 0, true,  pawns);
+            LoadBlackPawn5(PawnTexture, 0, 0, true,  pawns);
+            LoadBlackPawn6(PawnTexture, 0, 0, true,  pawns);
+            LoadBlackPawn7(PawnTexture, 0, 0, true,  pawns);
+            LoadBlackPawn8(PawnTexture, 0, 0, true,  pawns);
+            LoadBlackQueen(QueenTexture, 0, 0, true,  queens);
+            LoadBlackRook1(RookTexture, 0, 0, true,  rooks);
+            LoadBlackRook2(RookTexture, 0, 0, true,  rooks);
 
-            LoadWhiteBishop1(BishopTexture, 0, 0, true, true, bishops);
-            LoadWhiteBishop2(BishopTexture, 0, 0, true, true, bishops);
-            LoadWhiteKing(KingTexture, 0, 0, true, true, kings);
-            LoadWhiteKnight1(KnightTexture, 0, 0, true, true, knights);
-            LoadWhiteKnight2(KnightTexture, 0, 0, true, true, knights);
-            LoadWhitePawn1(PawnTexture, 0, 0, true, true, pawns);
-            LoadWhitePawn2(PawnTexture, 0, 0, true, true, pawns);
-            LoadWhitePawn3(PawnTexture, 0, 0, true, true, pawns);
-            LoadWhitePawn4(PawnTexture, 0, 0, true, true, pawns);
-            LoadWhitePawn5(PawnTexture, 0, 0, true, true, pawns);
-            LoadWhitePawn6(PawnTexture, 0, 0, true, true, pawns);
-            LoadWhitePawn7(PawnTexture, 0, 0, true, true, pawns);
-            LoadWhitePawn8(PawnTexture, 0, 0, true, true, pawns);
-            LoadWhiteQueen(QueenTexture, 0, 0, true, true, queens);
-            LoadWhiteRook1(RookTexture, 0, 0, true, true, rooks);
-            LoadWhiteRook2(RookTexture, 0, 0, true, true, rooks);
+            LoadWhiteBishop1(BishopTexture, 0, 0, true,  bishops);
+            LoadWhiteBishop2(BishopTexture, 0, 0, true,  bishops);
+            LoadWhiteKing(KingTexture, 0, 0, true,  kings);
+            LoadWhiteKnight1(KnightTexture, 0, 0, true,  knights);
+            LoadWhiteKnight2(KnightTexture, 0, 0, true,  knights);
+            LoadWhitePawn1(PawnTexture, 0, 0,  true, pawns);
+            LoadWhitePawn2(PawnTexture, 0, 0, true,  pawns);
+            LoadWhitePawn3(PawnTexture, 0, 0, true,  pawns);
+            LoadWhitePawn4(PawnTexture, 0, 0, true,  pawns);
+            LoadWhitePawn5(PawnTexture, 0, 0, true,  pawns);
+            LoadWhitePawn6(PawnTexture, 0, 0, true,  pawns);
+            LoadWhitePawn7(PawnTexture, 0, 0, true,  pawns);
+            LoadWhitePawn8(PawnTexture, 0, 0, true,  pawns);
+            LoadWhiteQueen(QueenTexture, 0, 0, true,  queens);
+            LoadWhiteRook1(RookTexture, 0, 0, true,  rooks);
+            LoadWhiteRook2(RookTexture, 0, 0, true,  rooks);
 
             return (new Chessboard(pawns, rooks, knights, bishops, kings, queens));
 
@@ -1509,6 +1509,7 @@ namespace Chessboard_valuer
 
                     for (int endX = 0; endX < 8; endX++)
                     {
+                        // use bool isprinted
                         if (playedBoards[playedBoards.Count - 1].pawn.ContainsKey(new Point(endX, 0)))
                         {
                             if (playedBoards[playedBoards.Count - 1].pawn[new Point(endX, 0)].GetColor == Color.White)
