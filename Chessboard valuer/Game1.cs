@@ -59,6 +59,7 @@ namespace Chessboard_valuer
 
         int currentVal = 0;
         int bestVal = -1;
+        int endX = 0;
 
         List<Move> AiMove = new List<Move>();
         List<Move> moves = new List<Move>();
@@ -110,17 +111,7 @@ namespace Chessboard_valuer
         
         }
 
-        public static Dictionary<TKey, TValue> CloneDictionaryCloningValues<TKey, TValue>
-           (Dictionary<TKey, TValue> original) where TValue : ICloneable
-        {
-            Dictionary<TKey, TValue> ret = new Dictionary<TKey, TValue>(original.Count,
-                                                                    original.Comparer);
-            foreach (KeyValuePair<TKey, TValue> entry in original)
-            {
-                ret.Add(entry.Key, (TValue)entry.Value.Clone());
-            }
-            return ret;
-        }
+
         private void LoadWhiteQueen(Texture2D pieceTexture, int x, int y, bool initialising, bool drawn, Dictionary<Point, Queen> queens)
         {
             if (initialising)
@@ -662,6 +653,7 @@ namespace Chessboard_valuer
         {
                      
             Chessboard chessboardLocal = new Chessboard();
+            // add all the moves to the list 
             moves = AllMoves(turns, board);
             if (depth == 0)
             {
@@ -673,7 +665,7 @@ namespace Chessboard_valuer
 
 
 
-            // add all the moves to the list 
+            //if the turn is player it finds the best player board and returns the best value, and if the turn is the AI turn it finds the smaller of alpha and value, when max pehth is reached value for the board is returned
             if (turns == Turn.PLAYER)
             {
                 bestVal = -9999999;
@@ -1492,89 +1484,101 @@ namespace Chessboard_valuer
                     {
                         playedBoards.Add(playerBoard);
                         localAiBoard.Add(playerBoard);
-                        turnComplete = true;
-                        turn = Turn.AI;
-                        isCalled = true;
 
-                        for (int endX = 0; endX < 8; endX++)
+
+
+
+                        if (m.endPoint.Y == 0 && playedBoards[playedBoards.Count - 1].pawn.ContainsKey(m.endPoint))
                         {
-                            if (playedBoards[playedBoards.Count - 1].pawn.ContainsKey(new Point(endX, 0)))
+
+                            Console.WriteLine("You can promote a piece! choose what you want to promote to [R]ook, [K]night, [B]ishop, [Q]ueen");
+                            endX = m.endPoint.X;
+                            while (isPressed == false)
                             {
-                                if (playedBoards[playedBoards.Count - 1].pawn[new Point(endX, 0)].GetColor == Color.White)
+                                if (Keyboard.GetState().IsKeyDown(Keys.R) && isPressed == false)
                                 {
-                                    Console.WriteLine("You can promote a piece! choose what you want to promote to [R]ook, [K]night, [B]ishop, [Q]ueen");
-                                    if (Keyboard.GetState().IsKeyDown(Keys.R) && isPressed == false)
-                                    {
 
-                                        playedBoards[playedBoards.Count - 1].pawn.Remove(new Point(endX, 0));
-                                        piecePosition = new Vector2(endX * (float)RookTexture.Width, 0 * (float)RookTexture.Height);
-                                        pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, RookTexture.Width, RookTexture.Height);
-                                        playedBoards[(playedBoards.Count - 1)].rook.Add(new Point(endX, 0), new Rook(RookTexture, piecePosition, Color.White, pieceBounds, 1, -4, true));
+                                    playedBoards[playedBoards.Count - 1].pawn.Remove(new Point(endX, 0));
+                                    piecePosition = new Vector2(endX * (float)RookTexture.Width, 0 * (float)RookTexture.Height);
+                                    pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, RookTexture.Width, RookTexture.Height);
+                                    playedBoards[(playedBoards.Count - 1)].rook.Add(new Point(endX, 0), new Rook(RookTexture, piecePosition, Color.White, pieceBounds, 1, -4, true));
 
 
-                                        isPressed = true;
+                                    isPressed = true;
 
 
 
 
-                                    }
-                                    else if (Keyboard.GetState().IsKeyDown(Keys.K) && isPressed == false)
-                                    {
+                                }
+                                else if (Keyboard.GetState().IsKeyDown(Keys.K) && isPressed == false)
+                                {
 
-                                        playedBoards[playedBoards.Count - 1].pawn.Remove(new Point(endX, 0));
-                                        piecePosition = new Vector2(endX * (float)KnightTexture.Width, 0 * (float)KnightTexture.Height);
-                                        pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, KnightTexture.Width, KnightTexture.Height);
-                                        playedBoards[(playedBoards.Count - 1)].knight.Add(new Point(endX, 0), new Knight(KnightTexture, piecePosition, Color.White, pieceBounds, 1, -3, true));
-
-
-                                        isPressed = true;
+                                    playedBoards[playedBoards.Count - 1].pawn.Remove(new Point(endX, 0));
+                                    piecePosition = new Vector2(endX * (float)KnightTexture.Width, 0 * (float)KnightTexture.Height);
+                                    pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, KnightTexture.Width, KnightTexture.Height);
+                                    playedBoards[(playedBoards.Count - 1)].knight.Add(new Point(endX, 0), new Knight(KnightTexture, piecePosition, Color.White, pieceBounds, 1, -3, true));
 
 
-
-
-                                    }
-                                    else if (Keyboard.GetState().IsKeyDown(Keys.B) && isPressed == false)
-                                    {
-
-                                        playedBoards[playedBoards.Count - 1].pawn.Remove(new Point(endX, 0));
-                                        piecePosition = new Vector2(endX * (float)BishopTexture.Width, 0 * (float)BishopTexture.Height);
-                                        pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, BishopTexture.Width, BishopTexture.Height);
-                                        playedBoards[(playedBoards.Count - 1)].bishop.Add(new Point(endX, 0), new Bishop(BishopTexture, piecePosition, Color.White, pieceBounds, 1, -4, true));
-
-
-                                        isPressed = true;
+                                    isPressed = true;
 
 
 
 
-                                    }
+                                }
+                                else if (Keyboard.GetState().IsKeyDown(Keys.B) && isPressed == false)
+                                {
 
-                                    else if (Keyboard.GetState().IsKeyDown(Keys.Q) && isPressed == false)
-                                    {
-
-                                        playedBoards[playedBoards.Count - 1].pawn.Remove(new Point(endX, 0));
-                                        Vector2 piecePosition = new Vector2(endX * (float)QueenTexture.Width, 0 * (float)QueenTexture.Height);
-                                        Rectangle pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, QueenTexture.Width, QueenTexture.Height);
-                                        playedBoards[(playedBoards.Count - 1)].queen.Add(new Point(endX, 0), new Queen(QueenTexture, piecePosition, Color.White, pieceBounds, 1, -8, true));
+                                    playedBoards[playedBoards.Count - 1].pawn.Remove(new Point(endX, 0));
+                                    piecePosition = new Vector2(endX * (float)BishopTexture.Width, 0 * (float)BishopTexture.Height);
+                                    pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, BishopTexture.Width, BishopTexture.Height);
+                                    playedBoards[(playedBoards.Count - 1)].bishop.Add(new Point(endX, 0), new Bishop(BishopTexture, piecePosition, Color.White, pieceBounds, 1, -4, true));
 
 
-                                        isPressed = true;
-
+                                    isPressed = true;
 
 
 
-                                    }
+
+                                }
+
+                                else if (Keyboard.GetState().IsKeyDown(Keys.Q) && isPressed == false)
+                                {
+
+                                    playedBoards[playedBoards.Count - 1].pawn.Remove(new Point(endX, 0));
+                                    Vector2 piecePosition = new Vector2(endX * (float)QueenTexture.Width, 0 * (float)QueenTexture.Height);
+                                    Rectangle pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, QueenTexture.Width, QueenTexture.Height);
+                                    playedBoards[(playedBoards.Count - 1)].queen.Add(new Point(endX, 0), new Queen(QueenTexture, piecePosition, Color.White, pieceBounds, 1, -8, true));
+
+
+                                    isPressed = true;
+
+
 
 
                                 }
 
                             }
 
+                            turnComplete = true;
+                            turn = Turn.AI;
+                            isCalled = true;
+
 
 
 
                         }
+                        else
+                        {
+                            turnComplete = true;
+                            turn = Turn.AI;
+                            isCalled = true;
 
+                        }
+
+
+
+
+                        
 
                     }
                     else if (playerBoard == null)
