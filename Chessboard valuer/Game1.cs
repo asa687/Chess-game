@@ -663,12 +663,20 @@ namespace Chessboard_valuer
                      
             Chessboard chessboardLocal = new Chessboard();
             moves = AllMoves(turns, board);
+            if (depth == 0)
+            {
+                return board.EvaluateBoard();
             
             
+            }
+
+
+
 
             // add all the moves to the list 
             if (turns == Turn.PLAYER)
             {
+                bestVal = -9999999;
                 for(int i = 0; i < moves.Count - 1; i ++)
                 {
                     if (depth > 0)
@@ -684,12 +692,13 @@ namespace Chessboard_valuer
                                 break;
 
                             }
+                            return bestVal;
 
                         }
                         else
                         {
                             break;
-                        
+
                         }
 
 
@@ -704,6 +713,7 @@ namespace Chessboard_valuer
             }
             else
             {
+                bestVal = 9999999;
                 for (int i = 0; i < moves.Count - 1; i++)
                 {
                     if (depth > 0)
@@ -721,7 +731,7 @@ namespace Chessboard_valuer
                                 break;
 
                             }
-
+                            return bestVal;
 
                         }
                         else
@@ -731,6 +741,7 @@ namespace Chessboard_valuer
                         }
 
                     }
+
 
 
 
@@ -749,15 +760,14 @@ namespace Chessboard_valuer
         // note making bestboard return a single value as lists do not work, this should fix the issue of nev values being changed
         private int BestBoard(Chessboard boards, Turn turns,int depth)
         {
-            int bestIndex = 0;
-            int bestVal = -1;
+
             
            
             
             
                 //note the issue comes from the values of board changing when minimax is called
             
-            int currentVal = Minimax(boards, depth, Turn.PLAYER, 9999999, -9999999);
+            currentVal = Minimax(boards, depth, Turn.PLAYER, 9999999, -9999999);
 
                 
             
@@ -1618,7 +1628,7 @@ namespace Chessboard_valuer
 
             }
 
-            // note need minimax to create values
+            //during the AI turn a new board is created as well as a list of possible moves
             if (turn == Turn.AI && isCalled == true)
             {
 
