@@ -38,7 +38,7 @@ namespace Chessboard_valuer
         bool turnComplete = false; 
 
         Chessboard AiBoard = new Chessboard();
-        Chessboard curentBoard = new Chessboard();
+        
 
         readonly List<Chessboard> playedBoards = new List<Chessboard>();
         readonly List<Chessboard> returnedBoards = new List<Chessboard>();
@@ -70,7 +70,7 @@ namespace Chessboard_valuer
         Color currentColor = Color.TransparentBlack;
 
 
-        Point endPoint = new Point();
+        
 
 
 
@@ -780,7 +780,7 @@ namespace Chessboard_valuer
         private Chessboard UpToDateBoard()
         {
             
-            Chessboard firstBoard = drawPieces();
+            Chessboard firstBoard = DrawPieces();
 
             Color color = Color.White;
             foreach (Move m in moveList)
@@ -819,7 +819,7 @@ namespace Chessboard_valuer
 
         //a new draw class can be made allowing a move to be generated 
         //using dictionaries to store the initialised position as key an
-        private Chessboard drawPieces()
+        private Chessboard DrawPieces()
         {
             Dictionary<Point, Pawn> pawns = new Dictionary<Point, Pawn>();
             Dictionary<Point, Rook> rooks = new Dictionary<Point, Rook>();
@@ -995,22 +995,7 @@ namespace Chessboard_valuer
 
 
 
-        private void TurnChange(Turn turn)
-        {
-            if (turn == Turn.PLAYER)
-            {
-                turn = Turn.AI;
 
-            }
-            else
-            {
-                turn = Turn.PLAYER;
-
-            }
-
-
-
-        }
 
         private Chessboard MovePiecesReturner(Move m, Color color, Chessboard chessboardLocal)
         {
@@ -1160,9 +1145,8 @@ namespace Chessboard_valuer
         private List<Move>  AllMoves(Turn turn, Chessboard chessboard)
         {
             //generates a list of all possiblre boards by creating a list of every possible change in position on the chessboard and mapping them to chesspieces
-            int widthLimit = 500;
-            endPoint = new Point(0, 0);
-            Point startPoint = new Point(0, 0);
+
+
             Chessboard chessboard1 = new Chessboard();
             returnedBoards.Clear();
             for (int i = 0; i < 999; i++)
@@ -1353,7 +1337,7 @@ namespace Chessboard_valuer
                 
                 InitialiseSquares(8, 8);
                 depth = 4;
-                initialBoard = drawPieces();
+                initialBoard = DrawPieces();
                 
                 
                 squareArray[indexI, indexJ].spriteColor = clickerColor;
