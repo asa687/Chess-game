@@ -13,7 +13,7 @@ namespace Chessboard_valuer
     public class Chessboard 
 
     {
-        private Chessboard board = new Chessboard();
+        
         public Dictionary<Point, Pawn> pawn;
         public Dictionary<Point, Rook> rook;
         public Dictionary<Point, Knight> knight;
