@@ -215,6 +215,7 @@ namespace Chessboard_valuer
                 }
 
             }
+
             return value;
 
         }
