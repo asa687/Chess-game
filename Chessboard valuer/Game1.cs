@@ -649,7 +649,7 @@ namespace Chessboard_valuer
 
 
 
-        protected int Minimax(Chessboard board, int depth, Turn turns, int alpha, int beta, List<Move> playedMoves)
+        private int Minimax(Chessboard board, int depth, Turn turns, int alpha, int beta, List<Move> playedMoves)
         {
                      
             
@@ -674,16 +674,22 @@ namespace Chessboard_valuer
                     Chessboard chessboardLocal = UpToDateBoard(playedMoves);
                     if (chessboardLocal != null)
                     {
-                        int minimaxResult = Minimax(chessboardLocal, depth - 1, Turn.AI, alpha, beta, playedMoves) ;
+                        int minimaxResult = Minimax(chessboardLocal, depth - 1, Turn.AI, alpha, beta, playedMoves);
                         value = Math.Max(value, minimaxResult);
                         alpha = Math.Max(alpha, value);
                         if (beta <= alpha)
                         {
                             break;
 
-                        } 
-                        
-                            
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        playedMoves.RemoveAt(playedMoves.Count - 1);
+
 
                     }
 
