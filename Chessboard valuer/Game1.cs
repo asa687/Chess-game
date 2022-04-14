@@ -31,7 +31,7 @@ namespace Chessboard_valuer
         Texture2D squareTexture, BishopTexture, KingTexture, KnightTexture, PawnTexture, QueenTexture, RookTexture;
         Square[,] squareArray; 
 
-        int depth = 4;
+        int depth = 40;
         int value = 0;
 
         bool isCalled = false;
@@ -60,7 +60,7 @@ namespace Chessboard_valuer
 
         int currentVal = 0;
         int bestVal = -1;
-        int bestCurrentVal = 0;
+        int bestCurrentVal = -1;
 
         List<Move> AiMove = new List<Move>();
         List<Move> moves = new List<Move>();
@@ -112,17 +112,6 @@ namespace Chessboard_valuer
         
         }
 
-        public static Dictionary<TKey, TValue> CloneDictionaryCloningValues<TKey, TValue>
-           (Dictionary<TKey, TValue> original) where TValue : ICloneable
-        {
-            Dictionary<TKey, TValue> ret = new Dictionary<TKey, TValue>(original.Count,
-                                                                    original.Comparer);
-            foreach (KeyValuePair<TKey, TValue> entry in original)
-            {
-                ret.Add(entry.Key, (TValue)entry.Value.Clone());
-            }
-            return ret;
-        }
         private void LoadWhiteQueen(Texture2D pieceTexture, int x, int y, bool initialising,  Dictionary<Point, Queen> queens)
         {
             if (initialising)
@@ -134,7 +123,7 @@ namespace Chessboard_valuer
 
             Vector2 piecePosition = new Vector2(x * (float)pieceTexture.Width, y * (float)pieceTexture.Height);
             Rectangle pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, pieceTexture.Width, pieceTexture.Height);
-            queens.Add(new Point(x, y), new Queen(pieceTexture, piecePosition, Color.White, pieceBounds, 1, -8, true));
+            queens.Add(new Point(x, y), new Queen(pieceTexture, piecePosition, Color.White, pieceBounds, 1, 8, true));
 
 
 
@@ -151,7 +140,7 @@ namespace Chessboard_valuer
             }
             Vector2 piecePosition = new Vector2(x * (float)pieceTexture.Width, y * (float)pieceTexture.Height);
             Rectangle pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, pieceTexture.Width, pieceTexture.Height);
-            queens.Add(new Point(x, y), new Queen(pieceTexture, piecePosition, Color.Black, pieceBounds, 1, 8, true));
+            queens.Add(new Point(x, y), new Queen(pieceTexture, piecePosition, Color.Black, pieceBounds, 1, -8, true));
 
 
 
@@ -168,7 +157,7 @@ namespace Chessboard_valuer
             }
             Vector2 piecePosition = new Vector2(x * (float)pieceTexture.Width, y * (float)pieceTexture.Height);
             Rectangle pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, pieceTexture.Width, pieceTexture.Height);
-            bishops.Add(new Point(x, y), new Bishop(pieceTexture, piecePosition, Color.White, pieceBounds, 1, -4, true));
+            bishops.Add(new Point(x, y), new Bishop(pieceTexture, piecePosition, Color.White, pieceBounds, 1, 4, true));
 
 
 
@@ -184,7 +173,7 @@ namespace Chessboard_valuer
             }
             Vector2 piecePosition = new Vector2(x * (float)pieceTexture.Width, y * (float)pieceTexture.Height);
             Rectangle pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, pieceTexture.Width, pieceTexture.Height);
-            bishops.Add(new Point(x, y), new Bishop(pieceTexture, piecePosition, Color.Black, pieceBounds, 1, 4, true));
+            bishops.Add(new Point(x, y), new Bishop(pieceTexture, piecePosition, Color.Black, pieceBounds, 1, -4, true));
 
 
 
@@ -200,7 +189,7 @@ namespace Chessboard_valuer
             }
             Vector2 piecePosition = new Vector2(x * (float)pieceTexture.Width, y * (float)pieceTexture.Height);
             Rectangle pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, pieceTexture.Width, pieceTexture.Height);
-            bishops.Add(new Point(x, y), new Bishop(pieceTexture, piecePosition, Color.White, pieceBounds, 1, -4, true));
+            bishops.Add(new Point(x, y), new Bishop(pieceTexture, piecePosition, Color.White, pieceBounds, 1, 4, true));
 
 
 
@@ -216,7 +205,7 @@ namespace Chessboard_valuer
             }
             Vector2 piecePosition = new Vector2(x * (float)pieceTexture.Width, y * (float)pieceTexture.Height);
             Rectangle pieceBounds = new Rectangle((int)piecePosition.X, (int)piecePosition.Y, pieceTexture.Width, pieceTexture.Height);
-            bishops.Add(new Point(x, y), new Bishop(pieceTexture, piecePosition, Color.Black, pieceBounds, 1, 4, true));
+            bishops.Add(new Point(x, y), new Bishop(pieceTexture, piecePosition, Color.Black, pieceBounds, 1, -4, true));
 
 
 
@@ -238,7 +227,7 @@ namespace Chessboard_valuer
 
 
         }
-        //note need to add local inputs for a variable and a return
+        
 
         private void LoadBlackKing(Texture2D pieceTexture, int x, int y, bool initialising, Dictionary<Point, King> kings)
         {
@@ -660,11 +649,11 @@ namespace Chessboard_valuer
 
 
 
-        private int Minimax(Chessboard board, int depth, Turn turns, int alpha, int beta)
+        protected int Minimax(Chessboard board, int depth, Turn turns, int alpha, int beta, List<Move> playedMoves)
         {
                      
-            Chessboard chessboardLocal = new Chessboard();
-            moves = AllMoves(turns, board);
+            
+            
             if (depth == 0)
             {
                 return board.EvaluateBoard();
@@ -673,93 +662,83 @@ namespace Chessboard_valuer
             }
 
 
-
+            List<Move> moves = AllMoves(turns, board);
 
             // add all the moves to the list 
             if (turns == Turn.PLAYER)
             {
-                bestVal = -9999999;
-                for(int i = 0; i < moves.Count - 1; i ++)
+                int value = int.MinValue;
+                foreach(Move move in moves)
                 {
-                    if (depth > 0)
+                    playedMoves.Add(move);
+                    Chessboard chessboardLocal = UpToDateBoard(playedMoves);
+                    if (chessboardLocal != null)
                     {
-                        chessboardLocal = MovePiecesReturner(moves[i], Color.White, board);
-                        if (chessboardLocal != null)
-                        {
-                            value = Minimax(chessboardLocal, depth - 1, Turn.AI, alpha, beta) + board.EvaluateBoard();
-                            bestVal = Math.Max(alpha, value);
-                            alpha = Math.Max(alpha, bestVal);
-                            if (beta <= alpha)
-                            {
-                                break;
-
-                            }
-                            return bestVal;
-
-                        }
-                        else
+                        int minimaxResult = Minimax(chessboardLocal, depth - 1, Turn.AI, alpha, beta, playedMoves) ;
+                        value = Math.Max(value, minimaxResult);
+                        alpha = Math.Max(alpha, value);
+                        if (beta <= alpha)
                         {
                             break;
 
-                        }
-
+                        } 
+                        
+                            
 
                     }
+
+                        
+
+                    
 
 
 
 
                 }
-
+                return value;
 
             }
             else
             {
-                bestVal = 9999999;
-                for (int i = 0; i < moves.Count - 1; i++)
+                int value = int.MinValue;               
+                foreach (Move move in moves)
                 {
-                    if (depth > 0)
+                    playedMoves.Add(move);
+                    Chessboard chessboardLocal = UpToDateBoard(playedMoves);
+
+                    if (chessboardLocal != null)
                     {
-                        chessboardLocal = MovePiecesReturner(moves[i], Color.Black, board);
-
-                        if (chessboardLocal != null)
-                        {
-                            value = Minimax(chessboardLocal, depth - 1, Turn.PLAYER, alpha, beta) + board.EvaluateBoard();
-
-                            bestVal = Math.Min(alpha, value);
-                            beta = Math.Min(alpha, bestVal);
-                            if (beta <= alpha)
-                            {
-                                break;
-
-                            }
-                            return bestVal;
-
-                        }
-                        else
+                        int minimaxResult = Minimax(chessboardLocal, depth - 1, Turn.PLAYER, alpha, beta, playedMoves) ;
+                        value = Math.Min(value, minimaxResult);
+                        beta = Math.Min(alpha, value);
+                        if (beta <= alpha)
                         {
                             break;
-                        
+
                         }
+                            
 
                     }
+
+
+                    
 
 
 
 
 
                 }
-
+                return value;
 
             }
             
-            return value;
+            
 
 
 
         }
 
-        // note making bestboard return a single value as lists do not work, this should fix the issue of nev values being changed
+        
         private int BestBoard(Chessboard boards, Turn turns,int depth)
         {
 
@@ -767,9 +746,9 @@ namespace Chessboard_valuer
            
             
             
-                //note the issue comes from the values of board changing when minimax is called
-            
-            currentVal = Minimax(boards, depth, Turn.PLAYER, 9999999, -9999999);
+                
+            List<Move> playedMoves = moveList;
+            currentVal = Minimax(boards, depth, Turn.PLAYER, int.MinValue, int.MaxValue, playedMoves);
 
                 
             
@@ -779,7 +758,7 @@ namespace Chessboard_valuer
         }
 
 
-        private Chessboard UpToDateBoard()
+        private Chessboard UpToDateBoard(List<Move> moveList)
         {
             
             Chessboard firstBoard = DrawPieces();
@@ -844,7 +823,7 @@ namespace Chessboard_valuer
 
 
                 }
-                else
+                else if (firstBoard != null)
                 {
                     firstBoard = (MovePiecesReturner(m, color, firstBoard));
                     if (color == Color.White)
@@ -859,6 +838,11 @@ namespace Chessboard_valuer
                     }
 
 
+                }
+                else
+                {
+                    break;
+                
                 }
 
             }
@@ -1120,7 +1104,7 @@ namespace Chessboard_valuer
 
                     if (valid == true)
                     {
-                        //note change the clases to use local variables
+                        
                         chessboardLocal = PieceRemove(m, chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
                         chessboardLocal.pawn[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
                         chessboardLocal.pawn.Add(m.GetEndPoint, chessboardLocal.pawn[m.GetStartPoint]);
@@ -1238,6 +1222,7 @@ namespace Chessboard_valuer
             Chessboard originalBoard = new Chessboard();
             List<Point> points = PossiblePointList(); 
             List<Move> moves = new List<Move>();
+
             for (int i = 0; i < 64; i++)
             {
                 for (int j = 0; j < 64; j++)
@@ -1259,7 +1244,7 @@ namespace Chessboard_valuer
             {
                 if (chessboard.pawn.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.pawn[moves[index].startPoint].ValidPawnMove(moves[index], chessboard) && chessboard.pawn[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.pawn[moves[index].startPoint].ValidPawnMove(moves[index], chessboard) )
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1269,7 +1254,7 @@ namespace Chessboard_valuer
                 }
                 else if (chessboard.rook.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.rook[moves[index].startPoint].ValidRookMove(moves[index], chessboard) && chessboard.rook[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.rook[moves[index].startPoint].ValidRookMove(moves[index], chessboard) )
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1279,7 +1264,7 @@ namespace Chessboard_valuer
                 }
                 else if (chessboard.knight.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.knight[moves[index].startPoint].ValidKnightMove(moves[index], chessboard) && chessboard.knight[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.knight[moves[index].startPoint].ValidKnightMove(moves[index], chessboard) )
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1289,7 +1274,7 @@ namespace Chessboard_valuer
                 }
                 else if (chessboard.bishop.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.bishop[moves[index].startPoint].ValidBishopMove(moves[index], chessboard) && chessboard.bishop[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.bishop[moves[index].startPoint].ValidBishopMove(moves[index], chessboard))
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1299,7 +1284,7 @@ namespace Chessboard_valuer
                 }
                 else if (chessboard.king.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.king[moves[index].startPoint].ValidKingMove(moves[index], chessboard) && chessboard.king[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.king[moves[index].startPoint].ValidKingMove(moves[index], chessboard))
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1309,7 +1294,7 @@ namespace Chessboard_valuer
                 }
                 else if (chessboard.queen.ContainsKey(moves[index].startPoint))
                 {
-                    if (chessboard.queen[moves[index].startPoint].ValidQueenMove(moves[index], chessboard) && chessboard.queen[moves[index].startPoint].GetColor == Color.Black)
+                    if (chessboard.queen[moves[index].startPoint].ValidQueenMove(moves[index], chessboard))
                     {
                         returnedMoves.Add(moves[index]);
 
@@ -1419,62 +1404,62 @@ namespace Chessboard_valuer
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D1))
                 {
-                    depth = 1;
+                    depth = 10;
                     isPressed = true;
 
                 }
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D2))
                 {
-                    depth = 2;
+                    depth = 20;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D3))
                 {
-                    depth = 3;
+                    depth = 30;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D4))
                 {
-                    depth = 4;
+                    depth = 40;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D5))
                 {
-                    depth = 5;
+                    depth = 50;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D6))
                 {
-                    depth = 6;
+                    depth = 60;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D7))
                 {
-                    depth = 7;
+                    depth = 70;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D7))
                 {
-                    depth = 6;
+                    depth = 80;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D9))
                 {
-                    depth = 9;
+                    depth = 90;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D0))
                 {
-                    depth = 50;
+                    depth = 100;
                     isPressed = true;
 
                 }
@@ -1560,7 +1545,7 @@ namespace Chessboard_valuer
 
 
 
-                //note - if point array is even, point into move, move checked and then performed, then turn end 
+               
                 if (pointList.Count % 2 == 0  && pointList.Count >= 2 && turnComplete == false)
                 {
                     
@@ -1603,7 +1588,7 @@ namespace Chessboard_valuer
 
                 for (int endX = 0; endX < 8; endX++)
                 {
-                    // use bool isprinted
+                    // checks if a piece has reached the end during the playrs turn, and as a result can be promoted
                     if (playedBoards[playedBoards.Count - 1].pawn.ContainsKey(new Point(endX, 0)))
                     {
                         if (playedBoards[playedBoards.Count - 1].pawn[new Point(endX, 0)].GetColor == Color.White)
@@ -1697,7 +1682,7 @@ namespace Chessboard_valuer
 
 
 
-                // note isf the pawn reaches the end a prompt apaers allowing the user to press a number key to promote a piece, it is removed from pawn array and a new piece of selected type is added to the correct array
+                
 
 
 
@@ -1714,32 +1699,36 @@ namespace Chessboard_valuer
 
 
 
-                
+                int currentVal = 0; 
                 bestMove = new Move();
-                currentBoard = UpToDateBoard(); 
+                currentBoard = UpToDateBoard(moveList); 
 
                 AiMove = AllMoves(Turn.AI, currentBoard);
                 foreach (Move moves in AiMove)
                 {
                     // each move is evaluated to se if it is better than the previous
-                    analysedBoard = MovePiecesReturner(moves, Color.Black, UpToDateBoard());
+                    analysedBoard = MovePiecesReturner(moves, Color.Black, UpToDateBoard(moveList));
+                    moveList.Add(moves);
                     if (analysedBoard != null)
                     {
-                        currentVal = BestBoard(UpToDateBoard(), Turn.AI, depth);
-                        if (currentVal > bestVal)
+                        currentVal = BestBoard(UpToDateBoard(moveList), Turn.AI, depth);
+                        if (currentVal > bestCurrentVal )
                         {
-                            bestMove = moves;
                             bestCurrentVal = currentVal;
+                            bestMove = moves;
+                            
+
 
                         }
 
 
 
                     }
+                    moveList.RemoveAt(moveList.Count - 1);
 
                 }
 
-                AiBoard = MovePiecesReturner(bestMove, Color.Black, UpToDateBoard());
+                AiBoard = MovePiecesReturner(bestMove, Color.Black, UpToDateBoard(moveList));
                 playedBoards.Add(AiBoard);
                 moveList.Add(bestMove);
                 isCalled = false;
@@ -1753,7 +1742,7 @@ namespace Chessboard_valuer
 
             }
 
-            //note to check if king is in check, check if any valid moves will be where the king is, if so king valid move is false, and a move has to be made such that it is true
+            //checks if a king has been captured and if so ends the game
             if (playedBoards[playedBoards.Count - 1].king.Count < 2)
             {
                 King[] remainingKings = new King[1];
