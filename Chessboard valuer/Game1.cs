@@ -1701,17 +1701,18 @@ namespace Chessboard_valuer
 
                 int currentVal = 0; 
                 bestMove = new Move();
-                currentBoard = UpToDateBoard(moveList); 
-
+                currentBoard = UpToDateBoard(moveList);
+                List<Move> LocalMoves = moveList;
                 AiMove = AllMoves(Turn.AI, currentBoard);
                 foreach (Move moves in AiMove)
                 {
                     // each move is evaluated to se if it is better than the previous
-                    analysedBoard = MovePiecesReturner(moves, Color.Black, UpToDateBoard(moveList));
-                    moveList.Add(moves);
-                    if (analysedBoard != null)
+                    
+                    LocalMoves.Add(moves);
+                    Chessboard boardToAnalyse = UpToDateBoard(LocalMoves);
+                    if (boardToAnalyse != null)
                     {
-                        currentVal = BestBoard(UpToDateBoard(moveList), Turn.AI, depth);
+                        currentVal = BestBoard(boardToAnalyse, Turn.AI, depth);
                         if (currentVal > bestCurrentVal )
                         {
                             bestCurrentVal = currentVal;
@@ -1724,7 +1725,7 @@ namespace Chessboard_valuer
 
 
                     }
-                    moveList.RemoveAt(moveList.Count - 1);
+                    LocalMoves.RemoveAt(LocalMoves.Count - 1);
 
                 }
 
