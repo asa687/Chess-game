@@ -1354,11 +1354,15 @@ namespace Chessboard_valuer
             
             }
 
-            foreach (Move move in returnedMoves)
+            int index = 0;
+            while(index < returnedMoves.Count)
             {
+                bool itemRemoved = false;
+                Move move = returnedMoves[index];
                 if (move.startPoint.X == move.endPoint.X && move.endPoint.Y == move.startPoint.Y)
                 { 
-                    returnedMoves.Remove(move);
+                    returnedMoves.Remove(move); 
+                    itemRemoved = true;
                                 
                 }
                 if (chessboard.pawn.ContainsKey(move.startPoint))
@@ -1366,6 +1370,7 @@ namespace Chessboard_valuer
                     if (chessboard.pawn[move.startPoint].ValidPawnMove(move, chessboard) == false)
                     {
                         returnedMoves.Remove(move);
+                        itemRemoved = true;
                     }
 
                 }
@@ -1374,6 +1379,7 @@ namespace Chessboard_valuer
                     if (chessboard.rook[move.startPoint].ValidRookMove(move, chessboard) == false)
                     {
                         returnedMoves.Remove(move);
+                        itemRemoved = true;
                     }
                 }
                 else if (chessboard.knight.ContainsKey(move.startPoint))
@@ -1381,6 +1387,7 @@ namespace Chessboard_valuer
                     if (chessboard.knight[move.startPoint].ValidKnightMove(move, chessboard) == false)
                     {
                         returnedMoves.Remove(move);
+                        itemRemoved = true;
                     }
                 }
                 else if (chessboard.bishop.ContainsKey(move.startPoint))
@@ -1388,6 +1395,7 @@ namespace Chessboard_valuer
                     if (chessboard.bishop[move.startPoint].ValidBishopMove(move, chessboard) == false)
                     {
                         returnedMoves.Remove(move);
+                        itemRemoved = true;
                     }
                 }
                 else if (chessboard.king.ContainsKey(move.startPoint))
@@ -1395,6 +1403,7 @@ namespace Chessboard_valuer
                     if (chessboard.king[move.startPoint].ValidKingMove(move, chessboard) == false)
                     {
                         returnedMoves.Remove(move);
+                        itemRemoved = true;
                     }
                 }
                 else if (chessboard.queen.ContainsKey(move.startPoint))
@@ -1402,9 +1411,14 @@ namespace Chessboard_valuer
                     if (chessboard.queen[move.startPoint].ValidQueenMove(move, chessboard) == false)
                     {
                         returnedMoves.Remove(move);
+                        itemRemoved = true;
                     }
                 }
-
+                if (itemRemoved != true)
+                {
+                    index++;
+                
+                }
 
             }
 
