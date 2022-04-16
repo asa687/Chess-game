@@ -646,6 +646,138 @@ namespace Chessboard_valuer
             }
         }
 
+        public int EvaluateBoard(Chessboard chessboard)
+        {
+
+            int value = 0;
+
+            foreach (KeyValuePair<Point, Pawn> pawns in chessboard.pawn)
+            {
+
+                if (pawns.Value.CurrentlyDrawn)
+                {
+                    value += pawns.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings in chessboard.king)
+                    {
+                        if (pawns.Value.ValidPawnMove(new Move(pawns.Key, kings.Key), chessboard) && kings.Value.GetColor != pawns.Value.GetColor)
+                        {
+                            value += pawns.Value.GetValue * kings.Value.GetValue;
+
+                        }
+
+
+                    }
+
+                }
+
+
+
+
+
+            }
+
+            foreach (KeyValuePair<Point, Rook> rooks in chessboard.rook)
+            {
+
+                if (rooks.Value.CurrentlyDrawn)
+                {
+                    value += rooks.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings in chessboard.king)
+                    {
+                        if (rooks.Value.ValidRookMove(new Move(rooks.Key, kings.Key), chessboard) && kings.Value.GetColor != rooks.Value.GetColor)
+                        {
+                            value += rooks.Value.GetValue * kings.Value.GetValue;
+
+                        }
+
+
+                    }
+
+                }
+
+
+
+            }
+
+            foreach (KeyValuePair<Point, Knight> knights in chessboard.knight)
+            {
+                if (knights.Value.CurrentlyDrawn)
+                {
+                    value += knights.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings in chessboard.king)
+                    {
+                        if (knights.Value.ValidKnightMove(new Move(knights.Key, kings.Key), chessboard) && kings.Value.GetColor != knights.Value.GetColor)
+                        {
+                            value += knights.Value.GetValue * kings.Value.GetValue;
+
+                        }
+
+
+                    }
+                }
+
+            }
+
+            foreach (KeyValuePair<Point, Bishop> bishops in chessboard.bishop)
+            {
+                if (bishops.Value.CurrentlyDrawn)
+                {
+                    value += bishops.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings in chessboard.king)
+                    {
+                        if (bishops.Value.ValidBishopMove(new Move(bishops.Key, kings.Key), chessboard) && kings.Value.GetColor != bishops.Value.GetColor)
+                        {
+                            value += bishops.Value.GetValue * kings.Value.GetValue;
+
+                        }
+
+
+                    }
+                }
+
+            }
+
+            foreach (KeyValuePair<Point, King> kings in chessboard.king)
+            {
+                if (kings.Value.CurrentlyDrawn)
+                {
+                    value += kings.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings2 in chessboard.king)
+                    {
+                        if (kings.Value.ValidKingMove(new Move(kings.Key, kings2.Key), chessboard) && kings.Value.GetColor != kings.Value.GetColor)
+                        {
+                            value += kings.Value.GetValue * kings.Value.GetValue;
+
+                        }
+
+
+                    }
+                }
+
+            }
+
+            foreach (KeyValuePair<Point, Queen> queens in chessboard.queen)
+            {
+                if (queens.Value.CurrentlyDrawn)
+                {
+                    value += queens.Value.GetValue;
+                    foreach (KeyValuePair<Point, King> kings in chessboard.king)
+                    {
+                        if (queens.Value.ValidQueenMove(new Move(queens.Key, kings.Key), chessboard) && kings.Value.GetColor != queens.Value.GetColor)
+                        {
+                            value += queens.Value.GetValue * kings.Value.GetValue;
+
+                        }
+
+
+                    }
+                }
+
+            }
+
+            return value;
+
+        }
 
 
 
@@ -656,7 +788,7 @@ namespace Chessboard_valuer
             
             if (depth == 0)
             {
-                int value = UpToDateBoard(playedMoves).EvaluateBoard();
+                int value = EvaluateBoard(UpToDateBoard(playedMoves));
                 return value;
             }
 
@@ -673,7 +805,7 @@ namespace Chessboard_valuer
                     Chessboard chessboardLocal = UpToDateBoard(playedMoves);
                     if (chessboardLocal != null)
                     {
-                        int minimaxResult = Minimax( depth - 1, Turn.AI, alpha, beta, playedMoves);
+                        int minimaxResult = Minimax(depth - 1, Turn.AI, alpha, beta, playedMoves);
                         value = Math.Max(value, minimaxResult);
                         alpha = Math.Max(alpha, value);
                         if (beta <= alpha)
@@ -681,7 +813,11 @@ namespace Chessboard_valuer
                             break;
 
                         }
-
+                        if (chessboardLocal.king.Count == 1)
+                        {
+                            int boardVal = EvaluateBoard(UpToDateBoard(playedMoves));
+                            return value;
+                        }
 
 
                     }
@@ -695,7 +831,7 @@ namespace Chessboard_valuer
             }
             else
             {
-                int value = int.MinValue;               
+                int value = int.MaxValue;               
                 foreach (Move move in moves)
                 {
                     playedMoves.Add(move);
@@ -711,7 +847,12 @@ namespace Chessboard_valuer
                             break;
 
                         }
-                            
+                        if (chessboardLocal.king.Count == 1)
+                        {
+                            int boardVal = EvaluateBoard(UpToDateBoard(playedMoves));
+                            return value;
+                        }
+
 
                     }
 
@@ -1286,7 +1427,7 @@ namespace Chessboard_valuer
             {
                 
                 InitialiseSquares(8, 8);
-                depth = 40;
+                depth = 4;
                 initialBoard = DrawPieces();
                 
                 
@@ -1305,62 +1446,62 @@ namespace Chessboard_valuer
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D1))
                 {
-                    depth = 10;
+                    depth = 1;
                     isPressed = true;
 
                 }
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D2))
                 {
-                    depth = 20;
+                    depth = 2;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D3))
                 {
-                    depth = 30;
+                    depth = 3;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D4))
                 {
-                    depth = 40;
+                    depth = 4;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D5))
                 {
-                    depth = 50;
+                    depth = 5;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D6))
                 {
-                    depth = 60;
+                    depth = 6;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D7))
                 {
-                    depth = 70;
+                    depth = 7;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D7))
                 {
-                    depth = 80;
+                    depth = 8;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D9))
                 {
-                    depth = 90;
+                    depth = 9;
                     isPressed = true;
 
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D0))
                 {
-                    depth = 100;
+                    depth = 10;
                     isPressed = true;
 
                 }
