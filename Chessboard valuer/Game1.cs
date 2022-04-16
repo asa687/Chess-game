@@ -1361,7 +1361,51 @@ namespace Chessboard_valuer
                     returnedMoves.Remove(move);
                                 
                 }
-            
+                if (chessboard.pawn.ContainsKey(move.startPoint))
+                {
+                    if (chessboard.pawn[move.startPoint].ValidPawnMove(move, chessboard) == false)
+                    {
+                        returnedMoves.Remove(move);
+                    }
+
+                }
+                else if (chessboard.rook.ContainsKey(move.startPoint))
+                {
+                    if (chessboard.rook[move.startPoint].ValidRookMove(move, chessboard) == false)
+                    {
+                        returnedMoves.Remove(move);
+                    }
+                }
+                else if (chessboard.knight.ContainsKey(move.startPoint))
+                {
+                    if (chessboard.knight[move.startPoint].ValidKnightMove(move, chessboard) == false)
+                    {
+                        returnedMoves.Remove(move);
+                    }
+                }
+                else if (chessboard.bishop.ContainsKey(move.startPoint))
+                {
+                    if (chessboard.bishop[move.startPoint].ValidBishopMove(move, chessboard) == false)
+                    {
+                        returnedMoves.Remove(move);
+                    }
+                }
+                else if (chessboard.king.ContainsKey(move.startPoint))
+                {
+                    if (chessboard.king[move.startPoint].ValidKingMove(move, chessboard) == false)
+                    {
+                        returnedMoves.Remove(move);
+                    }
+                }
+                else if (chessboard.queen.ContainsKey(move.startPoint))
+                {
+                    if (chessboard.queen[move.startPoint].ValidQueenMove(move, chessboard) == false)
+                    {
+                        returnedMoves.Remove(move);
+                    }
+                }
+
+
             }
 
             return returnedMoves;
