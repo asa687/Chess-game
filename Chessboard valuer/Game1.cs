@@ -955,7 +955,7 @@ namespace Chessboard_valuer
                 }
                 else if(firstBoard == null)
                 {
-                    break;
+                    
                     return null;
                 
                 }
@@ -1838,7 +1838,7 @@ namespace Chessboard_valuer
 
                 }
                 moveList.Add(bestMove);
-                AiBoard = MovePiecesReturner(bestMove, Color.Black, UpToDateBoard(moveList));
+                AiBoard =  UpToDateBoard(moveList);
                 playedBoards.Add(AiBoard);
                 
                 isCalled = false;
