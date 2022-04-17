@@ -956,6 +956,7 @@ namespace Chessboard_valuer
                 else if(firstBoard == null)
                 {
                     break;
+                    return null;
                 
                 }
 
@@ -1803,13 +1804,14 @@ namespace Chessboard_valuer
                 bestMove = new Move();
                 currentBoard = UpToDateBoard(moveList);
                 List<Move> LocalMoves = new List<Move>(); 
-                LocalMoves.AddRange(moveList);
+                
                 AiMove = AllMoves(Turn.AI, currentBoard);
                 foreach (Move moves in AiMove)
                 {
                     // each move is evaluated to se if it is better than the previous
-                    
+                    LocalMoves.AddRange(moveList);
                     LocalMoves.Add(moves);
+                    // notre uptodateboard not returning nulls
                     Chessboard boardToAnalyse = UpToDateBoard(LocalMoves);
                     if (boardToAnalyse != null)
                     {
@@ -1826,13 +1828,13 @@ namespace Chessboard_valuer
 
 
                     }
-                    LocalMoves.RemoveAt(LocalMoves.Count - 1);
+                    LocalMoves.Clear();
 
                 }
-
+                moveList.Add(bestMove);
                 AiBoard = MovePiecesReturner(bestMove, Color.Black, UpToDateBoard(moveList));
                 playedBoards.Add(AiBoard);
-                moveList.Add(bestMove);
+                
                 isCalled = false;
                 turnComplete = false;
                 bestCurrentVal = -1;
