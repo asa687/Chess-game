@@ -1311,13 +1311,8 @@ namespace Chessboard_valuer
 
 
             Chessboard chessboard1 = new Chessboard();
-            returnedBoards.Clear();
-            for (int i = 0; i < 999; i++)
-            {
-                returnedBoards.Add(chessboard);
 
 
-            }
             
             List<Move> returnedMoves = new List<Move>();
             
@@ -1334,9 +1329,9 @@ namespace Chessboard_valuer
             }
 
 
-            Chessboard originalBoard = new Chessboard();
+            
             List<Point> points = PossiblePointList(); 
-            List<Move> moves = new List<Move>();
+            
 
             for (int i = 0; i < 64; i++)
             {
@@ -1838,7 +1833,7 @@ namespace Chessboard_valuer
 
                 }
                 moveList.Add(bestMove);
-                AiBoard =  UpToDateBoard(moveList);
+                AiBoard = MovePiecesReturner(bestMove, Color.Black, UpToDateBoard(moveList));
                 playedBoards.Add(AiBoard);
                 
                 isCalled = false;
