@@ -1415,6 +1415,12 @@ namespace Chessboard_valuer
                         itemRemoved = true;
                     }
                 }
+                else if (chessboard.pawn.ContainsKey(move.startPoint) == false && chessboard.rook.ContainsKey(move.startPoint) == false && chessboard.knight.ContainsKey(move.startPoint) == false && chessboard.bishop.ContainsKey(move.startPoint) == false && chessboard.king.ContainsKey(move.startPoint) == false && chessboard.queen.ContainsKey(move.startPoint) == false)
+                {
+                    returnedMoves.Remove(move);
+                    itemRemoved = true;
+
+                }
                 if (itemRemoved != true)
                 {
                     index++;
