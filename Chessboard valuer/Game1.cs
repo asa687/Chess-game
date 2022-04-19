@@ -1671,8 +1671,8 @@ namespace Chessboard_valuer
                         playedBoards.Add(playerBoard);
                         localAiBoard.Add(playerBoard);
                         turnComplete = true;
-                        isCalled = true;
-                        turn = Turn.AI;
+                        //isCalled = true;
+                        //turn = Turn.AI;
 
 
 
@@ -1767,14 +1767,14 @@ namespace Chessboard_valuer
                         }
 
                     }
-                    if (hasPromoted == true && turnComplete == true)
+                    /*if (hasPromoted == true && turnComplete == true)
                     {
                         hasPromoted = false;
                         isCalled = true;
                         turn = Turn.AI;
                         break;
                     
-                    }
+                    }*/
 
 
 
