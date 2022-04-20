@@ -1671,8 +1671,8 @@ namespace Chessboard_valuer
                         playedBoards.Add(playerBoard);
                         localAiBoard.Add(playerBoard);
                         turnComplete = true;
-                        //isCalled = true;
-                        //turn = Turn.AI;
+                        isCalled = true;
+                        turn = Turn.AI;
 
 
 
@@ -1767,14 +1767,14 @@ namespace Chessboard_valuer
                         }
 
                     }
-                    /*if (hasPromoted == true && turnComplete == true)
+                    if (hasPromoted == true && turnComplete == true)
                     {
                         hasPromoted = false;
                         isCalled = true;
                         turn = Turn.AI;
                         break;
                     
-                    }*/
+                    }
 
 
 
@@ -1801,7 +1801,7 @@ namespace Chessboard_valuer
             }
 
             //during the AI turn a new board is created as well as a list of possible moves
-            if (turn == Turn.AI && isCalled == true)
+            else if (turn == Turn.AI && isCalled == true)
             {
 
 
@@ -1817,7 +1817,7 @@ namespace Chessboard_valuer
                     // each move is evaluated to se if it is better than the previous
                     LocalMoves.AddRange(moveList);
                     LocalMoves.Add(moves);
-                    // notre uptodateboard not returning nulls
+                    
                     Chessboard boardToAnalyse = UpToDateBoard(LocalMoves);
                     if (boardToAnalyse != null)
                     {
