@@ -1585,7 +1585,7 @@ namespace Chessboard_valuer
 
                 }
 
-                if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                else if (Keyboard.GetState().IsKeyDown(Keys.D2))
                 {
                     depth = 2;
                     isPressed = true;
@@ -1615,37 +1615,9 @@ namespace Chessboard_valuer
                     isPressed = true;
 
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.D7))
-                {
-                    depth = 7;
-                    isPressed = true;
 
-                }
-                else if (Keyboard.GetState().IsKeyDown(Keys.D7))
-                {
-                    depth = 8;
-                    isPressed = true;
 
-                }
-                else if (Keyboard.GetState().IsKeyDown(Keys.D9))
-                {
-                    depth = 9;
-                    isPressed = true;
 
-                }
-                else if (Keyboard.GetState().IsKeyDown(Keys.D0))
-                {
-                    depth = 10;
-                    isPressed = true;
-
-                }
-
-                if (isPressed == true)
-                {
-                    
-                    isPressed = false;
-
-                }
 
 
 
@@ -1719,7 +1691,7 @@ namespace Chessboard_valuer
                 }
 
 
-                if (isPressed == true)
+                if (Keyboard.GetState().GetPressedKeys().Length == 0)
                 {
                     isPressed = false;
 
@@ -1727,7 +1699,7 @@ namespace Chessboard_valuer
 
 
 
-               
+
                 if (pointList.Count % 2 == 0  && pointList.Count >= 2 && turnComplete == false)
                 {
                     
