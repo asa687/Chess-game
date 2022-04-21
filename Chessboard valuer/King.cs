@@ -11,7 +11,7 @@ namespace Chessboard_valuer
 {
     public class King : ChessPiece
     {
-        
+        public bool canCastle = true;
         public King() : base()
         {
 
@@ -19,7 +19,7 @@ namespace Chessboard_valuer
 
         }
 
-        public King( Texture2D inSpriteTexture, Vector2 inSpritePosition, Color inSpriteColor, Rectangle inSpriteBox, float inScaleFactor, int inValue,bool isDrawn) : base( inSpriteTexture, inSpritePosition, inSpriteColor, inSpriteBox, inScaleFactor, inValue,isDrawn)
+        public King( Texture2D inSpriteTexture, Vector2 inSpritePosition, Color inSpriteColor, Rectangle inSpriteBox, float inScaleFactor, int inValue, bool isDrawn) : base( inSpriteTexture, inSpritePosition, inSpriteColor, inSpriteBox, inScaleFactor, inValue, isDrawn)
         {
             
 
@@ -36,7 +36,7 @@ namespace Chessboard_valuer
 
             if (move.GetStartPoint.X == move.GetEndPoint.X && valid == true)
             {
-                if (move.GetStartPoint.Y > move.GetEndPoint.Y)
+                if (move.GetStartPoint.Y > move.GetEndPoint.Y && move.GetStartPoint.Y - move.GetEndPoint.Y == 1)
                 {
                     for (int i = 1; i < Math.Abs(move.GetEndPoint.Y - move.GetStartPoint.Y); i++)
                     {
@@ -49,7 +49,7 @@ namespace Chessboard_valuer
                     }
 
                 }
-                else if (move.GetStartPoint.Y < move.GetEndPoint.Y)
+                else if (move.GetStartPoint.Y < move.GetEndPoint.Y && move.GetEndPoint.Y - move.GetStartPoint.Y == 1)
                 {
                     for (int i = 1; i < Math.Abs(move.GetEndPoint.Y - move.GetStartPoint.Y); i++)
                     {
@@ -68,7 +68,7 @@ namespace Chessboard_valuer
 
             else if (move.GetStartPoint.Y == move.GetEndPoint.Y && valid == true)
             {
-                if (move.GetStartPoint.X > move.GetEndPoint.X)
+                if (move.GetStartPoint.X > move.GetEndPoint.X && move.GetStartPoint.X - move.GetEndPoint.X == 1)
                 {
                     for (int i = 1; i < Math.Abs(move.GetEndPoint.Y - move.GetStartPoint.Y); i++)
                     {
@@ -81,45 +81,11 @@ namespace Chessboard_valuer
                     }
 
                 }
-                else if (move.GetStartPoint.X < move.GetEndPoint.X)
+                else if (move.GetStartPoint.X < move.GetEndPoint.X && move.GetEndPoint.X - move.GetStartPoint.X == 1)
                 {
                     for (int i = 1; i < Math.Abs(move.GetEndPoint.X - move.GetStartPoint.X); i++)
                     {
                         if (chessboard.pawn.ContainsKey(new Point(move.GetStartPoint.X + i, move.GetEndPoint.Y)) || chessboard.rook.ContainsKey(new Point(move.GetStartPoint.X + i, move.GetEndPoint.Y)) || chessboard.knight.ContainsKey(new Point(move.GetStartPoint.X + i, move.GetEndPoint.Y)) || chessboard.bishop.ContainsKey(new Point(move.GetStartPoint.X + i, move.GetEndPoint.Y)) || chessboard.king.ContainsKey(new Point(move.GetStartPoint.X + i, move.GetEndPoint.Y)) || chessboard.queen.ContainsKey(new Point(move.GetStartPoint.X + i, move.GetEndPoint.Y)))
-                        {
-                            return false;
-
-                        }
-
-
-                    }
-
-                }
-
-
-            }
-
-
-            else if (move.GetStartPoint.Y == move.GetEndPoint.Y && valid == true)
-            {
-                if (move.GetStartPoint.X > move.GetEndPoint.X)
-                {
-                    for (int i = move.GetEndPoint.X; i < move.GetStartPoint.X; i--)
-                    {
-                        if (chessboard.pawn.ContainsKey(new Point(i, move.GetEndPoint.Y)) || chessboard.rook.ContainsKey(new Point(i, move.GetEndPoint.Y)) || chessboard.knight.ContainsKey(new Point(i, move.GetEndPoint.Y)) || chessboard.bishop.ContainsKey(new Point(i, move.GetEndPoint.Y)) || chessboard.king.ContainsKey(new Point(i, move.GetEndPoint.Y)) || chessboard.queen.ContainsKey(new Point(i, move.GetEndPoint.Y)))
-                        {
-                            return false;
-
-                        }
-
-                    }
-
-                }
-                else if (move.GetStartPoint.X < move.GetEndPoint.X)
-                {
-                    for (int i = move.GetStartPoint.X; i < move.GetEndPoint.X; i++)
-                    {
-                        if (chessboard.pawn.ContainsKey(new Point(i, move.GetEndPoint.Y)) || chessboard.rook.ContainsKey(new Point(i, move.GetEndPoint.Y)) || chessboard.knight.ContainsKey(new Point(i, move.GetEndPoint.Y)) || chessboard.bishop.ContainsKey(new Point(i, move.GetEndPoint.Y)) || chessboard.king.ContainsKey(new Point(i, move.GetEndPoint.Y)) || chessboard.queen.ContainsKey(new Point(i, move.GetEndPoint.Y)))
                         {
                             return false;
 

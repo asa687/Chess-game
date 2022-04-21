@@ -661,7 +661,7 @@ namespace Chessboard_valuer
                     {
                         if (pawns.Value.ValidPawnMove(new Move(pawns.Key, kings.Key), chessboard) && kings.Value.GetColor != pawns.Value.GetColor)
                         {
-                            value += pawns.Value.GetValue * kings.Value.GetValue;
+                            value += pawns.Value.GetValue * -kings.Value.GetValue;
 
                         }
 
@@ -686,7 +686,7 @@ namespace Chessboard_valuer
                     {
                         if (rooks.Value.ValidRookMove(new Move(rooks.Key, kings.Key), chessboard) && kings.Value.GetColor != rooks.Value.GetColor)
                         {
-                            value += rooks.Value.GetValue * kings.Value.GetValue;
+                            value += rooks.Value.GetValue * -kings.Value.GetValue;
 
                         }
 
@@ -708,7 +708,7 @@ namespace Chessboard_valuer
                     {
                         if (knights.Value.ValidKnightMove(new Move(knights.Key, kings.Key), chessboard) && kings.Value.GetColor != knights.Value.GetColor)
                         {
-                            value += knights.Value.GetValue * kings.Value.GetValue;
+                            value += knights.Value.GetValue * -kings.Value.GetValue;
 
                         }
 
@@ -727,7 +727,7 @@ namespace Chessboard_valuer
                     {
                         if (bishops.Value.ValidBishopMove(new Move(bishops.Key, kings.Key), chessboard) && kings.Value.GetColor != bishops.Value.GetColor)
                         {
-                            value += bishops.Value.GetValue * kings.Value.GetValue;
+                            value += bishops.Value.GetValue * -kings.Value.GetValue;
 
                         }
 
@@ -746,7 +746,7 @@ namespace Chessboard_valuer
                     {
                         if (kings.Value.ValidKingMove(new Move(kings.Key, kings2.Key), chessboard) && kings.Value.GetColor != kings.Value.GetColor)
                         {
-                            value += kings.Value.GetValue * kings.Value.GetValue;
+                            value += kings.Value.GetValue * -kings.Value.GetValue;
 
                         }
 
@@ -765,7 +765,7 @@ namespace Chessboard_valuer
                     {
                         if (queens.Value.ValidQueenMove(new Move(queens.Key, kings.Key), chessboard) && kings.Value.GetColor != queens.Value.GetColor)
                         {
-                            value += queens.Value.GetValue * kings.Value.GetValue;
+                            value += queens.Value.GetValue * -kings.Value.GetValue;
 
                         }
 
@@ -1278,6 +1278,75 @@ namespace Chessboard_valuer
                         chessboardLocal.king.Remove(m.GetStartPoint);
                         return chessboardLocal;
                     }
+                    // the rules for castling
+                    else if (m.startPoint.X == 4 && (m.startPoint.Y == 0 && color == Color.Black)  && (chessboardLocal.king[m.GetStartPoint].canCastle == true))
+                    {
+                        if (m.endPoint == new Point(6, 0) && chessboardLocal.rook.ContainsKey(new Point(7, 0)) && ((chessboardLocal.pawn.ContainsKey(new Point(6, 0)) || chessboardLocal.rook.ContainsKey(new Point(6, 0)) || chessboardLocal.knight.ContainsKey(new Point(6, 0)) || chessboardLocal.bishop.ContainsKey(new Point(6, 0)) || chessboardLocal.king.ContainsKey(new Point(6, 0)) || chessboardLocal.queen.ContainsKey(new Point(6, 0))) && (chessboardLocal.pawn.ContainsKey(new Point(5, 0)) || chessboardLocal.rook.ContainsKey(new Point(5, 0)) || chessboardLocal.knight.ContainsKey(new Point(5, 0)) || chessboardLocal.bishop.ContainsKey(new Point(5, 0)) || chessboardLocal.king.ContainsKey(new Point(5, 0)) || chessboardLocal.queen.ContainsKey(new Point(5, 0)))) == false)
+                        {
+                            chessboardLocal = PieceRemove(m, chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                            chessboardLocal.king[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
+                            chessboardLocal.king.Add(m.GetEndPoint, chessboardLocal.king[m.GetStartPoint]);
+                            chessboardLocal.king.Remove(m.GetStartPoint);
+                            chessboardLocal.king[m.GetStartPoint].canCastle = false;
+                            chessboardLocal = PieceRemove(new Move(new Point(7, 0), new Point(5, 0)), chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                            chessboardLocal.rook[new Move(new Point(7, 0), new Point(5, 0)).GetStartPoint].GetVector = new Vector2(new Move(new Point(7, 0), new Point(5, 0)).GetEndPoint.X * 100, new Move(new Point(7, 0), new Point(5, 0)).GetEndPoint.Y * 100);
+                            chessboardLocal.rook.Add(new Move(new Point(7, 0), new Point(5, 0)).GetEndPoint, chessboardLocal.rook[new Move(new Point(7, 0), new Point(5, 0)).GetStartPoint]);
+                            chessboardLocal.rook.Remove(new Move(new Point(7, 0), new Point(5, 0)).GetStartPoint);
+
+
+
+                        }
+                        else if (m.endPoint == new Point(2, 0) && chessboardLocal.rook.ContainsKey(new Point(0, 0)) && ((chessboardLocal.pawn.ContainsKey(new Point(1, 0)) || chessboardLocal.rook.ContainsKey(new Point(1, 0)) || chessboardLocal.knight.ContainsKey(new Point(1, 0)) || chessboardLocal.bishop.ContainsKey(new Point(1, 0)) || chessboardLocal.king.ContainsKey(new Point(1, 0)) || chessboardLocal.queen.ContainsKey(new Point(1, 0))) && (chessboardLocal.pawn.ContainsKey(new Point(2, 0)) || chessboardLocal.rook.ContainsKey(new Point(2, 0)) || chessboardLocal.knight.ContainsKey(new Point(2, 0)) || chessboardLocal.bishop.ContainsKey(new Point(2, 0)) || chessboardLocal.king.ContainsKey(new Point(2, 0)) || chessboardLocal.queen.ContainsKey(new Point(2, 0)))) == false)
+                        {
+                            chessboardLocal = PieceRemove(m, chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                            chessboardLocal.king[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
+                            chessboardLocal.king.Add(m.GetEndPoint, chessboardLocal.king[m.GetStartPoint]);
+                            chessboardLocal.king.Remove(m.GetStartPoint);
+                            chessboardLocal.king[m.GetStartPoint].canCastle = false;
+                            chessboardLocal = PieceRemove(new Move(new Point(0, 0), new Point(2, 0)), chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                            chessboardLocal.rook[new Move(new Point(0, 0), new Point(2, 0)).GetStartPoint].GetVector = new Vector2(new Move(new Point(0, 0), new Point(2, 0)).GetEndPoint.X * 100, new Move(new Point(0, 0), new Point(2, 0)).GetEndPoint.Y * 100);
+                            chessboardLocal.rook.Add(new Move(new Point(0, 0), new Point(2, 0)).GetEndPoint, chessboardLocal.rook[new Move(new Point(0, 0), new Point(2, 0)).GetStartPoint]);
+                            chessboardLocal.rook.Remove(new Move(new Point(0, 0), new Point(2, 0)).GetStartPoint);
+
+
+                        }
+                    
+                    }
+                    else if (m.startPoint.X == 4 &&  (m.startPoint.Y == 7 && color == Color.White) && (chessboardLocal.king[m.GetStartPoint].canCastle == true))
+                    {
+                        if (m.endPoint == new Point(6, 7) && chessboardLocal.rook.ContainsKey(new Point(7, 7)) && ((chessboardLocal.pawn.ContainsKey(new Point(5, 7)) || chessboardLocal.rook.ContainsKey(new Point(5, 7)) || chessboardLocal.knight.ContainsKey(new Point(5, 7)) || chessboardLocal.bishop.ContainsKey(new Point(5, 7)) || chessboardLocal.king.ContainsKey(new Point(5, 7)) || chessboardLocal.queen.ContainsKey(new Point(5, 7))) && (chessboardLocal.pawn.ContainsKey(new Point(6, 7)) || chessboardLocal.rook.ContainsKey(new Point(6, 7)) || chessboardLocal.knight.ContainsKey(new Point(6, 7)) || chessboardLocal.bishop.ContainsKey(new Point(6, 7)) || chessboardLocal.king.ContainsKey(new Point(6, 7)) || chessboardLocal.queen.ContainsKey(new Point(6, 7)))) == false)
+                        {
+                            chessboardLocal = PieceRemove(m, chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                            chessboardLocal.king[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
+                            chessboardLocal.king.Add(m.GetEndPoint, chessboardLocal.king[m.GetStartPoint]);
+                            chessboardLocal.king.Remove(m.GetStartPoint);
+                            chessboardLocal.king[m.GetStartPoint].canCastle = false;
+                            chessboardLocal = PieceRemove(new Move(new Point(7, 7), new Point(5, 7)), chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                            chessboardLocal.rook[new Move(new Point(7, 7), new Point(5, 7)).GetStartPoint].GetVector = new Vector2(new Move(new Point(7, 7), new Point(5, 7)).GetEndPoint.X * 100, new Move(new Point(7, 7), new Point(5, 7)).GetEndPoint.Y * 100);
+                            chessboardLocal.rook.Add(new Move(new Point(7, 7), new Point(5, 7)).GetEndPoint, chessboardLocal.rook[new Move(new Point(7, 7), new Point(5, 7)).GetStartPoint]);
+                            chessboardLocal.rook.Remove(new Move(new Point(7, 7), new Point(5, 7)).GetStartPoint);
+
+
+
+                        }
+                        else if (m.endPoint == new Point(2, 0) && chessboardLocal.rook.ContainsKey(new Point(0, 0)) && ((chessboardLocal.pawn.ContainsKey(new Point(1, 7)) || chessboardLocal.rook.ContainsKey(new Point(1, 7)) || chessboardLocal.knight.ContainsKey(new Point(1, 7)) || chessboardLocal.bishop.ContainsKey(new Point(1, 7)) || chessboardLocal.king.ContainsKey(new Point(1, 7)) || chessboardLocal.queen.ContainsKey(new Point(1, 7))) && (chessboardLocal.pawn.ContainsKey(new Point(2, 7)) || chessboardLocal.rook.ContainsKey(new Point(2, 7)) || chessboardLocal.knight.ContainsKey(new Point(2, 7)) || chessboardLocal.bishop.ContainsKey(new Point(2, 7)) || chessboardLocal.king.ContainsKey(new Point(2, 7)) || chessboardLocal.queen.ContainsKey(new Point(2, 7)))) == false)
+                        {
+                            chessboardLocal = PieceRemove(m, chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                            chessboardLocal.king[m.GetStartPoint].GetVector = new Vector2(m.GetEndPoint.X * 100, m.GetEndPoint.Y * 100);
+                            chessboardLocal.king.Add(m.GetEndPoint, chessboardLocal.king[m.GetStartPoint]);
+                            chessboardLocal.king.Remove(m.GetStartPoint);
+                            chessboardLocal.king[m.GetStartPoint].canCastle = false;
+                            chessboardLocal = PieceRemove(new Move(new Point(0, 7), new Point(2, 7)), chessboardLocal.pawn, chessboardLocal.rook, chessboardLocal.knight, chessboardLocal.bishop, chessboardLocal.king, chessboardLocal.queen);
+                            chessboardLocal.rook[new Move(new Point(0, 7), new Point(2, 7)).GetStartPoint].GetVector = new Vector2(new Move(new Point(0, 7), new Point(2, 7)).GetEndPoint.X * 100, new Move(new Point(0, 7), new Point(2, 7)).GetEndPoint.Y * 100);
+                            chessboardLocal.rook.Add(new Move(new Point(0, 7), new Point(2, 7)).GetEndPoint, chessboardLocal.rook[new Move(new Point(0, 7), new Point(2, 7)).GetStartPoint]);
+                            chessboardLocal.rook.Remove(new Move(new Point(0, 7), new Point(2, 7)).GetStartPoint);
+
+
+                        }
+
+
+
+                    }
 
                 }
                 else if (chessboardLocal.queen.ContainsKey(m.GetStartPoint) && chessboardLocal.queen[m.GetStartPoint].GetColor == color)
@@ -1571,6 +1640,12 @@ namespace Chessboard_valuer
 
                 }
 
+                if (isPressed == true)
+                {
+                    
+                    isPressed = false;
+
+                }
 
 
 
@@ -1644,7 +1719,7 @@ namespace Chessboard_valuer
                 }
 
 
-                if (Keyboard.GetState().GetPressedKeys().Length == 0)
+                if (isPressed == true)
                 {
                     isPressed = false;
 
