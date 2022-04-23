@@ -49,11 +49,9 @@
     <Compile Include="Game1.cs" />
     <Compile Include="King.cs" />
     <Compile Include="Knight.cs" />
-    <Compile Include="Node.cs" />
     <Compile Include="Pawn.cs" />
     <Compile Include="Queen.cs" />
     <Compile Include="Rook.cs" />
-    <Compile Include="Score.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sprite.cs" />

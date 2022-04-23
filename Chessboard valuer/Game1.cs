@@ -1621,7 +1621,7 @@ namespace Chessboard_valuer
 
 
 
-
+                //checks which key is pressed to allow user inputs 
                 if (Keyboard.GetState().IsKeyDown(Keys.S) && isPressed == false)
                 {
 
