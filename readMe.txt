@@ -1,3 +1,2 @@
-used chess dot net library 
-reasea-rch ml.net  
-add the libzrary, forz rules and add click
+requres monogame version 3.7 to function, which can be found here: 
+https://community.monogame.net/t/monogame-3-7-1/11173
